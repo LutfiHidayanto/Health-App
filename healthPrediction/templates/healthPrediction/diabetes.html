@@ -1,0 +1,16 @@
+{% extends './layout.html' %}
+
+
+{% block body %} 
+<h1>Diabetes Prediction Form</h1>
+<div id="form-contaienr">
+    <form method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result">
+        <h3>Potential Result: {% if result == 0 %}non-diabetes{% else %}diabetes{% endif %}</h3>
+    </div>    
+</div>
+{% endblock %}

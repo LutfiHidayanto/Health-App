@@ -1,0 +1,43 @@
+{% extends './layout.html' %}
+
+{% block title %}{{ medicine.name }}{% endblock %}
+
+{% block body %}
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <img class="w-32 h-32 rounded-full mx-auto mb-4" src="{{ medicine.image.url }}" alt="Medicine Image">
+    <h1 class="text-3xl font-bold text-center">{{ medicine.name }}</h1>
+    <p class="text-gray-600 text-center mb-4">{{ medicine.description }}</p>
+    <p class="text-gray-600 text-center mb-4">${{ medicine.price }}</p>
+    
+    <div class="text-center mt-4 flex items-center justify-center">
+        <button id="decrement" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">-</button>
+        <input type="number" id="quantity" value="1" min="1" class="mx-2 text-center w-16">
+        <button id="increment" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">+</button>
+    </div>
+    
+    <div class="text-center mt-4">
+        <button id="add-to-cart" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Add to Cart</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('increment').addEventListener('click', function() {
+        var quantityInput = document.getElementById('quantity');
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+    });
+
+    document.getElementById('decrement').addEventListener('click', function() {
+        var quantityInput = document.getElementById('quantity');
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+        }
+    });
+
+    document.getElementById('add-to-cart').addEventListener('click', function() {
+        var quantity = document.getElementById('quantity').value;
+        var medicineId = "{{ medicine.id }}";
+        var url = "{% url 'add_to_cart' medicine.id %}?quantity=" + quantity;
+        window.location.href = url;
+    });
+</script>
+{% endblock %}

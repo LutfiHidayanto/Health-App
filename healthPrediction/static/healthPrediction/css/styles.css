@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: "Rubik", sans-serif;
+    margin: 0;
+}
+
+input {
+    color: black;
+}
+
+body {
+    /* background-color: #201e23; */
+    color: black;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;    
+}
+
+main {
+    min-height: 100vh;
+    padding: 4rem 10rem;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+#diabetes-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;  
+    padding-left: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 100px;
+}
+
+.logo img {
+    max-width: 100%;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+nav a {
+    display: block;
+    padding: 1.5rem 1.5rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+nav a:hover {
+    background-color: white;
+    color: #201e23;
+}
+
+.me-photo {
+    width: 200px;
+    
+}
+
+.me-photo img {
+    max-width: 100%;
+    border-radius: 50px;
+}
+
+.fa {
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 10px;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-whatsapp {
+    background: #075E54;
+}
+
+.fa-linkedin {
+    background: #007bb5;    
+}
+
+.fa-instagram {
+    background: #f09433; 
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+}
+

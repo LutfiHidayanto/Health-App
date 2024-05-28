@@ -1,0 +1,61 @@
+{% extends "../healthPrediction/layout.html" %}
+
+{% block body %}
+
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+
+<div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+<h2 class="text-2xl font-bold mb-6 text-center">Doctor Registration</h2>
+<form method="post" action = "{% url 'doctor_register'%}", enctype='multipart/form-data'>
+    {% csrf_token %}
+    <div class="mb-4">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div class="mb-4">
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+    </div>
+    <div class="mb-4">
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+    </div>
+    <div class="mb-4">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+    </div>
+    <div class="mb-4">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+    </div>
+    <div class="mb-4">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+    </div>
+
+    <div class="mb-4">
+        {{ profile_form.specialty.label_tag }}
+        {{ profile_form.specialty }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.years_of_experience.label_tag }}
+        {{ profile_form.years_of_experience }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.phone_number.label_tag }}
+        {{ profile_form.phone_number }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.profile_photo.label_tag }}
+        {{ profile_form.profile_photo }}
+    </div>
+    <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Register</button>
+</form>
+</div>
+
+
+
+{% endblock %}

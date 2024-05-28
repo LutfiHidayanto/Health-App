@@ -1,0 +1,12 @@
+{% extends './layout.html' %}
+
+{% block title %}Consult With Doctor{% endblock %}
+
+{% block body %} 
+
+<div class="container mx-auto py-12">
+    <h1 class="text-3xl font-bold mb-8 text-center">Consult Doctor {{ doctor.user.first_name }} {{ doctor.user.last_name }}</h1>
+    <!-- Consultation details here -->
+</div>
+
+{% endblock %}

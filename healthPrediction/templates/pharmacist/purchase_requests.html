@@ -1,0 +1,32 @@
+{% extends './layout.html' %}
+
+{% block title %}Purchase Requests{% endblock %}
+
+{% block body %}
+<h1 class="text-3xl font-bold mb-8 text-center">Purchase Requests</h1>
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <table class="table-auto w-full mb-4">
+        <thead>
+            <tr>
+                <th class="px-4 py-2">Order ID</th>
+                <th class="px-4 py-2">User</th>
+                <th class="px-4 py-2">Status</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in purchase_requests %}
+            <tr>
+                <td class="border px-4 py-2">{{ request.order.id }}</td>
+                <td class="border px-4 py-2">{{ request.order.user.username }}</td>
+                <td class="border px-4 py-2">{{ request.status }}</td>
+                <td class="border px-4 py-2">
+                    <a href="{% url 'update_purchase_request_status' request.id 'accepted' %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Accept</a>
+                    <a href="{% url 'update_purchase_request_status' request.id 'rejected' %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

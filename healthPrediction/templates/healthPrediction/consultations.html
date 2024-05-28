@@ -1,0 +1,74 @@
+{% extends './layout.html' %}
+
+{% block title %} Consultations {% endblock %}
+
+{% block body %}
+
+<div class="container mx-auto py-12">
+    <h1 class="text-3xl font-bold mb-8 text-center">Consultations</h1>
+
+    <div class="flex justify-center mb-8">
+        <button onclick="showSection('all-doctors')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">All Doctors</button>
+        <button onclick="showSection('requested-doctor')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">Requested Doctor</button>
+    </div>
+
+    <div id="all-doctors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for doctor in doctors %}
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <img class="w-32 h-32 rounded-full mx-auto mb-4" src="{{ doctor.profile_photo.url }}" alt="Profile Photo">
+            <h2 class="text-xl font-semibold text-center">{{ doctor.user.first_name }} {{ doctor.user.last_name }}</h2>
+            <p class="text-gray-600 text-center">Specialty: {{ doctor.specialty }}</p>
+            <p class="text-gray-600 text-center">Experience: {{ doctor.years_of_experience }} years</p>
+            <p class="text-center {{ doctor.is_available|yesno:'text-green-500, text-red-500' }}">{{ doctor.is_available|yesno:'Available, Not Available' }}</p>
+            <div class="text-center mt-4">
+                <a href="{% url 'consult_doctor' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Show Profile</a>
+            </div>
+            <div class="text-center mt-4">
+                {% if latest_request and latest_request.status == "rejected" %}
+                    <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
+                    <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
+                {% elif latest_request and latest_request.doctor == doctor.user and latest_request.status != 'completed' %}
+                    <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>
+                {% else %}
+                    <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Consult Now</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="requested-doctor" class="hidden">
+        {% if latest_request and latest_request.status != 'completed' %}
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <img class="w-32 h-32 rounded-full mx-auto mb-4" src="{{ doctor_request.profile_photo.url }}" alt="Profile Photo">
+            <h2 class="text-xl font-semibold text-center">{{ doctor_request.user.first_name }} {{ doctor_request.user.last_name }}</h2>
+            <p class="text-gray-600 text-center">Specialty: {{ doctor_request.specialty }}</p>
+            <p class="text-gray-600 text-center">Experience: {{ doctor_request.years_of_experience }} years</p>
+            <p class="text-center {{ doctor_request.is_available|yesno:'text-green-500, text-red-500' }}">{{ doctor_request.is_available|yesno:'Available, Not Available' }}</p>
+            <div class="text-center mt-4">
+                <a href="" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Show Profile</a>
+            </div>
+            <div class="text-center mt-4">
+                {% if latest_request and latest_request.status == "rejected" %}
+                    <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
+                    <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
+                {% elif latest_request and latest_request.doctor == doctor.user and latest_request.status != 'completed' %}
+                    <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center text-gray-600">You have not sent a consultation request to any doctor.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function showSection(sectionId) {
+    document.getElementById('all-doctors').classList.add('hidden');
+    document.getElementById('requested-doctor').classList.add('hidden');
+    document.getElementById(sectionId).classList.remove('hidden');
+}
+</script>
+
+{% endblock %}

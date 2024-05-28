@@ -1,0 +1,37 @@
+{% extends './layout.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block body %}
+<h1 class="text-3xl font-bold mb-8 text-center">Checkout</h1>
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    {% if order %}
+    <table class="table-auto w-full mb-4">
+        <thead>
+            <tr>
+                <th class="px-4 py-2">Medicine</th>
+                <th class="px-4 py-2">Quantity</th>
+                <th class="px-4 py-2">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+            <tr>
+                <td class="border px-4 py-2">{{ item.medicine.name }}</td>
+                <td class="border px-4 py-2">{{ item.quantity }}</td>
+                <td class="border px-4 py-2">${{ item.medicine.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-right">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Complete Purchase</button>
+        </form>
+    </div>
+    {% else %}
+    <p class="text-center">No items in your cart.</p>
+    {% endif %}
+</div>
+{% endblock %}

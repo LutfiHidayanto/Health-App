@@ -1,0 +1,31 @@
+{% extends "../healthPrediction/layout.html" %}
+
+
+{% block title %} Doctor Dashboard {% endblock %}
+
+{% block body %}
+
+<div class="container mx-auto py-12">
+    <h1 class="text-3xl font-bold mb-8 text-center">Consultation Requests</h1>
+    <p class="text-center mb-8">You have {{ waiting_count }} new consultation requests</p>
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        {% for request in requests %}
+        <div class="mb-4 p-4 border rounded">
+            <p><strong>Patient:</strong> {{ request.patient.first_name }} {{ request.patient.last_name }}</p>
+            <p><strong>Status:</strong> {{ request.get_status_display }}</p>
+            <p><strong>Requested At:</strong> {{ request.requested_at }}</p>
+            <div class="mt-2">
+                {% if request.status == 'waiting' %}
+                <a href="{% url 'accept_consultation' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Accept</a>
+                <a href="{% url 'reject_consultation' request.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Reject</a>
+                {% elif request.status == 'accepted' %}
+                <a href="{% url 'consultation_room' request.id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Go to Consultation Room</a>
+                <a href="{% url 'mark_consultation_completed' request.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700 transition duration-300">Mark as Completed</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "./layout.html" %}
+
+
+{% block title %}Pharmacist Registration{% endblock %}
+
+{% block body %}
+
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+
+<div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+<h2 class="text-2xl font-bold mb-6 text-center">Profile Registration</h2>
+<form method="post" action = "{% url 'pharmacist_register'%}", enctype='multipart/form-data'>
+    {% csrf_token %}
+    <div class="mb-4">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div class="mb-4">
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+    </div>
+    <div class="mb-4">
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+    </div>
+    <div class="mb-4">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+    </div>
+    <div class="mb-4">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+    </div>
+    <div class="mb-4">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+    </div>
+
+    <div class="mb-4">
+        {{ profile_form.pharmacy_name.label_tag }}
+        {{ profile_form.pharmacy_name }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.pharmacy_city.label_tag }}
+        {{ profile_form.pharmacy_city }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.phone_number.label_tag }}
+        {{ profile_form.phone_number }}
+    </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <div class="mb-4">
+        {{ profile_form.latitude.label_tag }}
+        {{ profile_form.latitude }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.longitude.label_tag }}
+        {{ profile_form.longitude }}
+    </div>
+    <div class="mb-4">
+        {{ profile_form.profile_photo.label_tag }}
+        {{ profile_form.profile_photo }}
+    </div>
+    <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Register</button>
+</form>
+</div>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 8
+            });
+
+            var marker = new google.maps.Marker({
+                position: {lat: -34.397, lng: 150.644},
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'position_changed', function() {
+                var lat = marker.getPosition().lat();
+                var lng = marker.getPosition().lng();
+                document.getElementById('id_latitude').value = lat;
+                document.getElementById('id_longitude').value = lng;
+            });
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                marker.setPosition(event.latLng);
+            });
+        }
+    </script>
+
+
+{% endblock %}

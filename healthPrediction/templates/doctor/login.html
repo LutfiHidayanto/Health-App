@@ -1,4 +1,6 @@
-{% extends "../healthPrediction/layout.html" %}
+{% extends "./layout.html" %}
+
+{% block title %}Doctor Login{% endblock %}
 
 {% block body %}
 
@@ -22,7 +24,7 @@
     Don't have an account? <a href="{% url 'register' %}">Register here.</a> {% endcomment %}
 
     <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-        <h2 class="text-2xl font-bold mb-6 text-center">User Login</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">Doctor Login</h2>
         <form method="post" action="{% url 'doctor_login' %}">
             {% csrf_token %}
             <div class="mb-4">

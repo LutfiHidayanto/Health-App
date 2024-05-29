@@ -49,10 +49,13 @@
                 <a href="" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Show Profile</a>
             </div>
             <div class="text-center mt-4">
-                {% if latest_request and latest_request.status == "rejected" %}
+                {% if latest_request.status == "rejected" %}
                     <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
                     <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
-                {% elif latest_request and latest_request.doctor == doctor.user and latest_request.status != 'completed' %}
+                {% elif latest_request and latest_request.status == "accepted" %}
+                    <a class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>
+                    <a href="{% url 'consultation_room' latest_request.id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Go To consultation room</a>
+                {% elif latest_request and latest_request.status != 'completed' %}
                     <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>
                 {% endif %}
             </div>

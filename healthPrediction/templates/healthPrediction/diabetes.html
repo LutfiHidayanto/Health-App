@@ -6,8 +6,9 @@
 <div id="form-contaienr">
     <form method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Submit</button>
+        {{ form.as_p }}
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Submit</button>
+
     </form>
     <div id="result">
         <h3>Potential Result: {% if result == 0 %}non-diabetes{% else %}diabetes{% endif %}</h3>

@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from .utils import create_google_meet_link 
 
 
@@ -177,7 +178,12 @@ def request_consultation(request, doctor_id):
     return HttpResponseRedirect(reverse('consultations'))
 
 def consultation_room(request, request_id):
-    return render(request, PATIENT_DIR + 'consultation_room')
+    consultation_request = get_object_or_404(ConsultationRequest, id=request_id)
+    doctor = consultation_request.doctor
+    context = {
+        'doctor': doctor,
+    }
+    return render(request, PATIENT_DIR + 'consultation_room.html', context)
 
 # Meds Store
 @login_required
@@ -230,17 +236,38 @@ def user_cart(request):
 @login_required
 def checkout(request):
     order = Order.objects.filter(user=request.user, status='pending').first()
-    if request.method == 'POST':
-        order.status = 'completed'
-        order.save()
+    if request.method == 'POST' and order:
+        try:
+            with transaction.atomic():
+                # Update the stock for each medicine in the order
+                for item in order.items.all():
+                    if item.medicine.stock >= item.quantity:
+                        item.medicine.stock -= item.quantity
+                        item.medicine.save()
+                    else:
+                        # Handle insufficient stock (optional)
+                        return HttpResponse("Insufficient stock for some items.", status=400)
 
-        # Create purchase requests for each pharmacist
-        pharmacists = set(item.medicine.pharmacist for item in order.items.all())
-        for pharmacist in pharmacists:
-            PurchaseRequest.objects.create(order=order, pharmacist=pharmacist)
-        
-        return redirect('order_confirmation')
-    return render(request, PATIENT_DIR + 'checkout.html', {'order': order})
+                # Mark the order as completed
+                order.status = 'completed'
+                order.save()
+
+                # Create purchase requests for each pharmacist
+                pharmacists = set(item.medicine.pharmacist for item in order.items.all())
+                for pharmacist in pharmacists:
+                    PurchaseRequest.objects.create(order=order, pharmacist=pharmacist)
+                
+                return redirect('order_confirmation')
+        except Exception as e:
+            return HttpResponse(f"An error occurred: {str(e)}", status=500)
+    
+    context = {
+        'order': order,
+        'total_quantity': order.total_quantity if order else 0,
+        'total_price': order.total_price if order else 0
+    }
+    return render(request, PATIENT_DIR + 'checkout.html', context)
+
 
 @login_required
 def order_confirmation(request):
@@ -328,13 +355,24 @@ def doctor_register_view(request):
     }
     return render(request, DOCTOR_DIR +  "register.html", context)
 
-@login_required
 def doctor_index(request):
+    return render(request, DOCTOR_DIR + 'index.html')
+
+def doctor_consultation_room(request, request_id):
+    consultation_request = get_object_or_404(ConsultationRequest, id=request_id)
+    patient = consultation_request.patient
+    context = {
+        'patient': patient,
+    }
+    return render(request, DOCTOR_DIR + 'consultation_room.html', context)
+
+@login_required
+def doctor_dashboard(request):
     if request.user.role != User.Role.DOCTOR:
-        return HttpResponseRedirect(reverse('index'))  # Ensure only doctors can access this view
+        return HttpResponseRedirect(reverse('index')) 
 
     requests = ConsultationRequest.objects.filter(doctor=request.user)
-    return render(request, DOCTOR_DIR + 'index.html', {'requests': requests})
+    return render(request, DOCTOR_DIR + 'dashboard.html', {'requests': requests})
 
 @login_required
 def accept_consultation(request, request_id):
@@ -558,16 +596,17 @@ def delete_medicine(request, medicine_id):
     return render(request, PHARMACIST_DIR + 'delete_medicine.html', {'medicine': medicine})
 
 @login_required
-def purchase_requests(request):
+def pharmacist_dashboard(request):
     purchase_requests = PurchaseRequest.objects.filter(pharmacist=request.user)
-    return render(request, PHARMACIST_DIR + 'purchase_requests.html', {'purchase_requests': purchase_requests})
+    return render(request, PHARMACIST_DIR + 'dashboard.html', {'purchase_requests': purchase_requests})
 
 @login_required
 def update_purchase_request_status(request, purchase_request_id, status):
     purchase_request = get_object_or_404(PurchaseRequest, id=purchase_request_id, pharmacist=request.user)
     purchase_request.status = status
     purchase_request.save()
-    return redirect('purchase_requests')
+    return redirect('pharmacist_dashboard')
+
 
 @login_required
 def pharmacist_sell_view(request):

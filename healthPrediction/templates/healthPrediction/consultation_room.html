@@ -3,10 +3,13 @@
 {% block title %}Consultation Room{% endblock %}
 
 {% block body %} 
-
 <div class="container mx-auto py-12">
-    meet_link = create_google_meet_link()
-
+    <h1 class="text-3xl font-bold mb-8 text-center">Consultation Room</h1>
+    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <p class="mb-4">Contact your doctor directly on WhatsApp for any urgent queries:</p>
+        <a href="https://wa.me/{{ doctor.phone_number }}" class="mt-6 bg-green-500 text-white py-2 px-6 rounded hover:bg-green-700 transition duration-300 inline-block">
+            Message Doctor on WhatsApp
+        </a>
+    </div>
 </div>
-
 {% endblock %}

@@ -17,14 +17,13 @@
             <img src="{% static 'healthPrediction/media/bocchi.png' %}"> 
         </div>
         <nav>
-            <a href="{% url 'pharmacist_index' %}" id="nav-welcome">Home</a>
-            <a href="{% url 'pharmacist_dashboard' %}" id="nav-diabetes">Dashboard</a>
-            <a href="{% url 'manage_medicines' %}" id="nav-idk">Sell</a>
+            <a href="{% url 'doctor_index' %}" id="nav-welcome">Home</a>
+            <a href="{% url 'doctor_dashboard' %}" id="nav-diabetes">Dashboard</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}" id="nav-logout">Logout</a>
             {% else %}
-                <a href="{% url 'pharmacist_login' %}" id="nav-login">Login</a>
-                <a href="{% url 'pharmacist_register' %}" id="nav-register">Register</a>
+                <a href="{% url 'doctor_login' %}" id="nav-login">Login</a>
+                <a href="{% url 'doctor_register' %}" id="nav-register">Register</a>
             {% endif %}
         </nav>
     </header>

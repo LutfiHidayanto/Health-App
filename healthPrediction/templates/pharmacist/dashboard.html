@@ -12,6 +12,7 @@
                 <th class="px-4 py-2">User</th>
                 <th class="px-4 py-2">Status</th>
                 <th class="px-4 py-2">Actions</th>
+                <th class="px-4 py-2">Details</th>
             </tr>
         </thead>
         <tbody>
@@ -24,9 +25,35 @@
                     <a href="{% url 'update_purchase_request_status' request.id 'accepted' %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Accept</a>
                     <a href="{% url 'update_purchase_request_status' request.id 'rejected' %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Reject</a>
                 </td>
+                <td class="border px-4 py-2 text-center">
+                    <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300" onclick="toggleDetails('details-{{ request.id }}')">Details</button>
+                </td>
+            </tr>
+            <tr id="details-{{ request.id }}" class="hidden">
+                <td colspan="5" class="border px-4 py-2">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">Order Details</h2>
+                        <ul>
+                            {% for item in request.order.items.all %}
+                            <li>{{ item.medicine.name }} - Quantity: {{ item.quantity }} - Total Price: ${{ item.total_price }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+<script>
+function toggleDetails(id) {
+    var element = document.getElementById(id);
+    if (element.classList.contains('hidden')) {
+        element.classList.remove('hidden');
+    } else {
+        element.classList.add('hidden');
+    }
+}
+</script>
 {% endblock %}

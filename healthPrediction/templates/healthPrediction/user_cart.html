@@ -16,7 +16,8 @@
             {% endfor %}
         </ul>
         <p class="text-gray-600 mt-4">Total Quantity: {{ total_quantity }}</p>
-        <p class="text-gray-600">Total Price: ${{ total_price }}</p>
+        <p class="text-gray-600 mb-4">Total Price: ${{ total_price }}</p>
+        <a href="{% url 'checkout' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Checkout</a>
     </div>
     {% else %}
     <p class="text-center text-gray-600">Your cart is empty.</p>

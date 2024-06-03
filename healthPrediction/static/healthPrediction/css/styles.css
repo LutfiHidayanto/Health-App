@@ -54,23 +54,6 @@ header {
     max-width: 100%;
 }
 
-nav {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-nav a {
-    display: block;
-    padding: 1.5rem 1.5rem;
-    text-decoration: none;
-    color: inherit;
-}
-
-nav a:hover {
-    background-color: white;
-    color: #201e23;
-}
-
 .me-photo {
     width: 200px;
     

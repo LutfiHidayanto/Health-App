@@ -1,15 +1,265 @@
-{% extends "./layout.html" %} 
 
-{% block title %}Home{% endblock %}
+{% extends './layout.html' %}
+{% load static %}
+
+{% block title %}Index{% endblock %}
 
 {% block body %}
-
-<div class="bg-white p-6 rounded-lg shadow-lg text-center">
-    <h1 class="text-3xl font-bold mb-4">Welcome to User App</h1>
-    <div class="flex justify-center mt-4">
-        {% comment %} <a href="{% url 'feature1' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">Feature 1</a>
-        <a href="{% url 'feature2' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">Feature 2</a> {% endcomment %}
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+ 
+  <!-- ***** Header Area End ***** -->
+  
+  <div id="modal" class="popupContainer" style="display:none;">
+    <div class="popupHeader">
+        <span class="header_title">Login</span>
+        <span class="modal_close"><i class="fa fa-times"></i></span>
+    </div>
+
+    <section class="popupBody">
+        <!-- Social Login -->
+        <div class="social_login">
+            <div class="">
+                <a href="#" class="social_box fb">
+                    <span class="icon"><i class="fab fa-facebook"></i></span>
+                    <span class="icon_title">Connect with Facebook</span>
+
+                </a>
+
+                <a href="#" class="social_box google">
+                    <span class="icon"><i class="fab fa-google-plus"></i></span>
+                    <span class="icon_title">Connect with Google</span>
+                </a>
+            </div>
+
+            <div class="centeredText">
+                <span>Or use your Email address</span>
+            </div>
+
+            <div class="action_btns">
+                <div class="one_half"><a href="#" id="login_form" class="btn">Login</a></div>
+                <div class="one_half last"><a href="#" id="register_form" class="btn">Sign up</a></div>
+            </div>
+        </div>
+
+        <!-- Username & Password Login form -->
+        <div class="user_login">
+            <form>
+                <label>Email / Username</label>
+                <input type="text" />
+                <br />
+
+                <label>Password</label>
+                <input type="password" />
+                <br />
+
+                <div class="checkbox">
+                    <input id="remember" type="checkbox" />
+                    <label for="remember">Remember me on this computer</label>
+                </div>
+
+                <div class="action_btns">
+                    <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
+                    <div class="one_half last"><a href="#" class="btn btn_red">Login</a></div>
+                </div>
+            </form>
+
+            <a href="#" class="forgot_password">Forgot password?</a>
+        </div>
+
+        <!-- Register Form -->
+        <div class="user_register">
+            <form>
+                <label>Full Name</label>
+                <input type="text" />
+                <br />
+
+                <label>Email Address</label>
+                <input type="email" />
+                <br />
+
+                <label>Password</label>
+                <input type="password" />
+                <br />
+
+                <div class="checkbox">
+                    <input id="send_updates" type="checkbox" />
+                    <label for="send_updates">Send me occasional email updates</label>
+                </div>
+
+                <div class="action_btns">
+                    <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
+                    <div class="one_half last"><a href="#" class="btn btn_red">Register</a></div>
+                </div>
+            </form>
+        </div>
+    </section>
 </div>
 
+<div class="carousel">
+  <!-- list item -->
+  <div class="list row">
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img1.jpg">
+          <div class="content">
+              <div class="author">OculoScan</div>
+              <div class="title">Eye Health</div>
+              <div class="topic">Detection</div>
+              <div class="des">
+                  <!-- lorem 50 -->
+                  Fitur "Eye Health Detection" pada OculoScan merupakan salah satu fitur utama yang dirancang untuk memberikan pengguna informasi yang akurat dan penting mengenai kesehatan mata mereka. Fitur ini menggunakan teknologi Neural Network yang canggih untuk menganalisis gambar mata yang diunggah oleh pengguna dan mendeteksi adanya potensi penyakit atau kondisi yang perlu perhatian.
+              </div>
+              <div class="buttons">
+                  <button>SEE MORE</button>
+              </div>
+          </div>
+      </div>
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img2.jpg">
+          <div class="content">
+              <div class="author">OculoScan</div>
+              <div class="title">Medisearch</div>
+              <div class="topic">Order</div>
+              <div class="des">
+                  Fitur "MediSearch & Order" dirancang untuk memberikan pengguna kemampuan untuk mencari produk-produk kesehatan yang mereka butuhkan dengan cepat dan mudah, serta melakukan pemesanan secara langsung melalui platform atau aplikasi yang disediakan. Fitur ini menyediakan pengalaman belanja yang terintegrasi dan praktis bagi pengguna yang memerlukan produk-produk kesehatan, mulai dari obat-obatan, suplemen, peralatan medis, hingga produk kesehatan lainnya.   
+              </div>
+              <div class="buttons">
+                  <button>SEE MORE</button>
+              </div>
+          </div>
+      </div>
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img3.jpg">
+          <div class="content">
+              <div class="author">OculoScan</div>
+              <div class="title">E-Clinic</div>
+              <div class="topic">Connect</div>
+              <div class="des">
+                  "eClinic Connect" adalah fitur inovatif yang dirancang untuk memberikan akses mudah dan cepat bagi pengguna untuk melakukan konsultasi medis secara virtual dengan para profesional kesehatan. Dengan menggunakan teknologi telemedis yang canggih, fitur ini menghubungkan pengguna dengan dokter dan tenaga medis terkualifikasi tanpa harus meninggalkan rumah mereka. 
+              </div>
+              <div class="buttons">
+                  <button>SEE MORE</button>
+              </div>
+          </div>
+      </div>
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img4.jpg">
+          <div class="content">
+              <div class="author">OculoScan</div>
+              <div class="title">Health Track</div>
+              <div class="topic">Records</div>
+              <div class="des">
+                  Fitur "Health Track Records" adalah solusi yang memungkinkan pengguna untuk mencatat dan melacak riwayat kesehatan mereka secara komprehensif. Dengan fitur ini, pengguna dapat mengelola semua informasi penting tentang kesehatan mereka, mulai dari riwayat penyakit, alergi, riwayat obat-obatan, hingga hasil tes laboratorium dan pemeriksaan medis lainnya.   
+              </div>
+              <div class="buttons">
+                  <button>SEE MORE</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- list thumnail -->
+  <div class="thumbnail row">
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img1.jpg">
+          <div class="content">
+              <div class="title">
+                  Eye Health Detection
+              </div>
+              <div class="description">
+                  Description
+              </div>
+          </div>
+      </div>
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img2.jpg">
+          <div class="content">
+              <div class="title">
+                  MediSearch Order
+              </div>
+              <div class="description">
+                  Description
+              </div>
+          </div>
+      </div>
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img3.jpg">
+          <div class="content">
+              <div class="title">
+                  E-Clinic Connect
+              </div>
+              <div class="description">
+                  Description
+              </div>
+          </div>
+      </div>
+      <div class="item col-lg-3 col-md-6">
+          <img src="image/img4.jpg">
+          <div class="content">
+              <div class="title">
+                  Health Track Records
+              </div>
+              <div class="description">
+                  Description
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- next prev -->
+  <div class="arrows">
+      <button id="prev"></button>
+      <button id="next"></button>
+  </div>
+  <!-- time running -->
+  <div class="time"></div>
+</div>
+
+  
+
+</div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <script>
+    // Temukan tombol
+    const scrollButton = document.getElementById('scrollButton');
+
+    // Tambahkan event listener untuk klik tombol
+    scrollButton.addEventListener('click', function(event) {
+        // Menghentikan default behavior dari link
+        event.preventDefault();
+
+        // Menggulirkan halaman ke bawah sebesar 500px
+        window.scrollBy({
+            top: 500,
+            behavior: 'smooth'
+        });
+    });
+</script>
+  <script src="{% static 'healthPrediction/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'healthPrediction/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <script src="{% static 'healthPrediction/js/owl-carousel.js' %}"></script>
+  <script src="{% static 'healthPrediction/js/animation.js' %}"></script>
+  <script src="{% static 'healthPrediction/js/imagesloaded.js' %}"></script>
+  <script src="{% static 'healthPrediction/js/popup.js' %}"></script>
+  <script src="{% static 'healthPrediction/js/custom.js' %}"></script>
+
+  {% comment %} <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/animation.js"></script>
+  <script src="assets/js/imagesloaded.js"></script>
+  <script src="assets/js/popup.js"></script>
+  <script src="assets/js/custom.js"></script> {% endcomment %}
 {% endblock %}

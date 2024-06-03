@@ -10,7 +10,6 @@ from django.contrib import messages
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from .utils import create_google_meet_link 
 
 
 PATIENT_DIR = 'healthPrediction/'

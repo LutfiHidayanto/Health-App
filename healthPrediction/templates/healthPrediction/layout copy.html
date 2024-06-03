@@ -1,0 +1,254 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Health{% endblock %} </title>
+     <!-- External CSS reference -->
+     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+   
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/LandingPage.css' %}">
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/owl.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'healthPrediction/css/buttonLogin.css' %}"> {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}"> {% endcomment %}
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+
+       <!-- Bootstrap core CSS -->
+     
+    {% comment %} <link href="{% static 'healthPrediction/css/styles.css' %}" rel="stylesheet"> {% endcomment %}
+   
+       <!--
+   
+   TemplateMo 570 Chain App Dev
+   
+   https://templatemo.com/tm-570-chain-app-dev
+   
+   -->
+   
+       {% comment %} <!-- Additional CSS Files -->
+       <link rel="stylesheet" href="{% static 'healthPrediction/css/LandingPage.css' %}">
+       <link rel="stylesheet" href="{% static 'healthPrediction/css/animated.css' %}">
+       <link rel="stylesheet" href="{% static 'healthPrediction/css/owl.css' %}"> {% endcomment %}
+    <style>
+      header nav#headernav {
+        margin-top: 20px;
+        width: 100vw; /* Mengisi keseluruhan lebar viewport */
+        height: 40px;
+        background-color: #f1683a; /* Warna default */
+        border-radius: 25px; /* Sudut melengkung */
+        transition: background-color 0.3s ease; /* Animasi perubahan warna */
+        padding-left: 20px; /* Memberikan jarak kiri sebesar 20px */
+        padding-top: 15px;
+    }
+    
+    header nav#headernav a {
+        padding: 5px 20px; /* Memberikan jarak 10px di atas dan bawah, serta 20px kiri dan kanan */
+        color: #eee; /* Warna teks */
+        text-decoration: none; /* Menghapus garis bawah default pada tautan */
+        font-size: 16px; /* Ukuran teks */
+    }
+    
+    .containerCard1 {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Raleway", Arial, sans-serif;
+        background-image: url('image/img1.jpg'); /* Background img1 */
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding-left: 30px;
+    }
+    
+    .containerCard1 .card {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        border-radius: 10px;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+        transition: 0.3s;
+        padding: 0px 50px;
+        background: #fff;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+    
+    .containerCard1 .card:hover {
+        height: 350px;
+    }
+    
+    .containerCard1 .imgbox {
+        position: relative;
+        width: 100%;
+        height: 50%;
+        transform: translateY(-80px);
+        z-index: 99;
+        padding-left: 0px;
+    }
+    
+    .containerCard1 .imgbox img {
+        width: 200px; /* Sesuaikan dengan ukuran yang diinginkan */
+        height: 200px; /* Sesuaikan dengan ukuran yang diinginkan */
+        object-fit: cover;
+        border-radius: 10px; /* Penambahan border radius sesuai kebutuhan */
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5); /* Efek shadow sesuai kebutuhan */
+    }
+    
+    .containerCard1 .content {
+        padding: 10px 20px;
+        text-align: center;
+        transform: translateY(-450px);
+        opacity: 0;
+        transition: 0.3s;
+    }
+    
+    .containerCard1 .card:hover > .content {
+        opacity: 1;
+        transform: translateY(-180px);
+    }
+    
+    .containerCard1 .content h2 {
+      margin-top: 145px;
+      color: #7f9ead;
+    }
+    
+    .containerCard1 .content p {
+        margin-top: 15px; /* Add margin-top to move buttons down by 40px */
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+        display: inline-block; /* Make sure the buttons are inline-block to avoid breaking the layout */
+        text-decoration: none; /* Remove underline from link */
+        color: white; /* Ensure text color is white */
+    }
+    
+    .register-btn {
+        background-color: #007bff;
+    }
+    
+    .signin-btn {
+        background-color: #28a745;
+    }
+    
+    .register-btn::before, 
+    .signin-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+        z-index: 1;
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(-100%);
+    }
+    
+    .register-btn:hover::before, 
+    .signin-btn:hover::before {
+        transform: translateX(100%);
+    }
+    
+    .register-btn:hover,
+    .signin-btn:hover {
+        transform: scale(1.05);
+    }
+    
+    .register-btn:hover {
+        background-color: #0056b3;
+    }
+    
+    .signin-btn:hover {
+        background-color: #1e7e34;
+    }
+    
+    .btn span {
+        position: relative;
+        z-index: 2;
+    }
+    .ScrollButton.scroll-to-section a {
+      background-color: blue;
+      background: linear-gradient(90deg, rgba(144,56,166,1) 0%, rgba(16,173,232,1) 100%);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, transform 0.5s ease-in-out;
+      display: inline-block;
+  }
+  
+  .ScrollButton.scroll-to-section a:hover {
+      background-color: white;
+      color: white;
+      border: 1px solid blue;
+      transform: scale(1.1);
+  }
+  
+  
+    </style>
+</head>
+<body>
+    <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <nav class="main-nav">
+                <!-- ***** Logo Start ***** -->
+                <a href="index.html" class="logo">
+                  <img src="{% static 'healthPrediction/media/landing_page/logo.png' %}" alt="Chain App Dev"> 
+                </a>
+                <!-- ***** Menu Start ***** -->
+                <ul class="nav">
+                    <li class="scroll-to-section"><a href="{% url 'index' %}" id="nav-welcome">Home</a></li>
+                    <li class="scroll-to-section"><a href="{% url 'diabetes-view' %}" id="nav-diabetes">diabetesPrediction</a></li>
+                    <li class="scroll-to-section"><a href="{% url 'medicine_list' %}" id="nav-idk">Medicines</a></li>
+                    <li class="scroll-to-section"><a href="{% url 'user_cart' %}">Cart</a></li>
+                    <li class="scroll-to-section"><a href="{% url 'consultations' %}" id="nav-idk">Consultations</a></li>
+                    {% if user.is_authenticated %}
+                        <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'logout' %}"><i src="{% static 'healthPrediction/media/landing_page/logout.png' %}" alt="Chain App Dev"></i> Logout</a></div></li> 
+                    {% else %}
+                        {% comment %} <a href="{% url 'login' %}" id="nav-login">Login</a> {% endcomment %}
+                        <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'login' %}"><i class="fa fa-sign-in-alt"></i> Sign In Now</a></div></li> 
+                        <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'register' %}"><i class="fa fa-sign-in-alt"></i> Register</a></div></li> 
+                        {% comment %} <a href="{% url 'register' %}" id="nav-register">Register</a> {% endcomment %}
+                    {% endif %}
+                </ul>        
+                <a class='menu-trigger'>
+                    <span>Menu</span>
+                </a>
+                <!-- ***** Menu End ***** -->
+              </nav>
+            </div>
+          </div>
+        </div>
+    </header>
+    <main class="">
+        {% block body %}
+        {% endblock %}
+    </main>
+    <footer class="footer-grid">
+        
+    </footer>
+</body>
+</html>

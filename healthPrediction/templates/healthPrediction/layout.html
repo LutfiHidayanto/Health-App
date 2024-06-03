@@ -14,70 +14,16 @@
     <link rel="stylesheet" href="{% static 'healthPrediction/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'healthPrediction/js/app.js' %}">
 
-    {% comment %} <link rel="stylesheet" href="{% static 'healthPrediction/css/buttonLogin.css' %}"> {% endcomment %}
-    {% comment %} <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}"> {% endcomment %}
-    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/buttonLogin.css' %}"> 
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}"> 
+    <script src="https://cdn.tailwindcss.com"></script> 
+    {% block head %}
 
-       <!-- Bootstrap core CSS -->
-     
-    {% comment %} <link href="{% static 'healthPrediction/css/styles.css' %}" rel="stylesheet"> {% endcomment %}
-   
-       <!--
-   
-   TemplateMo 570 Chain App Dev
-   
-   https://templatemo.com/tm-570-chain-app-dev
-   
-   -->
-   
-       {% comment %} <!-- Additional CSS Files -->
-       <link rel="stylesheet" href="{% static 'healthPrediction/css/LandingPage.css' %}">
-       <link rel="stylesheet" href="{% static 'healthPrediction/css/animated.css' %}">
-       <link rel="stylesheet" href="{% static 'healthPrediction/css/owl.css' %}"> {% endcomment %}
-    <style>
-      header nav#headernav {
-        margin-top: 20px;
-        width: 100vw; /* Mengisi keseluruhan lebar viewport */
-        height: 40px;
-        background-color: #f1683a; /* Warna default */
-        border-radius: 25px; /* Sudut melengkung */
-        transition: background-color 0.3s ease; /* Animasi perubahan warna */
-        padding-left: 20px; /* Memberikan jarak kiri sebesar 20px */
-        padding-top: 15px;
-    }
-    
-    header nav#headernav a {
-        padding: 5px 20px; /* Memberikan jarak 10px di atas dan bawah, serta 20px kiri dan kanan */
-        color: #eee; /* Warna teks */
-        text-decoration: none; /* Menghapus garis bawah default pada tautan */
-        font-size: 16px; /* Ukuran teks */
-    }
-    
-        
-    .btn span {
-        position: relative;
-        z-index: 2;
-    }
-    .ScrollButton.scroll-to-section a {
-      background-color: blue;
-      background: linear-gradient(90deg, rgba(144,56,166,1) 0%, rgba(16,173,232,1) 100%);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, transform 0.5s ease-in-out;
-      display: inline-block;
-  }
-  
-  .ScrollButton.scroll-to-section a:hover {
-      background-color: white;
-      color: white;
-      border: 1px solid blue;
-      transform: scale(1.1);
-  }
-  
-  
-    </style>
+    {% endblock %}
+       <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/LandingPage.css' %}">
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'healthPrediction/css/owl.css' %}"> 
 </head>
 <body>
     <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
@@ -118,8 +64,5 @@
         {% block body %}
         {% endblock %}
     </main>
-    <footer class="footer-grid">
-        
-    </footer>
 </body>
 </html>

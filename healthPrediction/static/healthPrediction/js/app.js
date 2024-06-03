@@ -1,3 +1,16 @@
+const scrollButton = document.getElementById('scrollButton');
+
+console.log(scrollButton)
+
+scrollButton.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    window.scrollBy({
+        top: 500,
+        behavior: 'smooth'
+    });
+});
+
 // Langkah 1: Dapatkan elemen DOM
 let nextDom = document.getElementById('next');
 let prevDom = document.getElementById('prev');

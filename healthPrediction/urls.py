@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.index, name="index"),
+    path('landing/', views.landing, name="landing"),
     path('diabetes/', views.diabetes_view, name="diabetes-view"),
     path("login/", views.patient_login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),

@@ -1,0 +1,22 @@
+{% extends './layout.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'healthPrediction/css/layout_diabetes.css' %}">
+{% endblock %}
+
+{% block body %} 
+<div class="flex flex-col items-center pt-8x">
+    <h1 class="">Diabetes Prediction Form</h1>
+    <div id="form-container">
+        <form method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Submit</button>
+
+        </form>
+        <div id="result">
+            <h3>Potential Result: {% if result == 0 %}non-diabetes{% else %}diabetes{% endif %}</h3>
+        </div>    
+    </div>
+</div>
+{% endblock %}

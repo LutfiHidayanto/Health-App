@@ -1,17 +1,117 @@
 {% extends './layout.html' %}
-
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'healthPrediction/css/layout_diabetes.css' %}">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+{% endblock %}
 
 {% block body %} 
-<h1>Diabetes Prediction Form</h1>
-<div id="form-contaienr">
-    <form method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Submit</button>
+<div class="pt-8x">
+    <div class="welcomeDiabet">
+        
+        <div class="container-leftW">
+            {% comment %} <img src="{% static 'healthPrediction/media/landing_page/bannerdiabetes2.jpeg' %}" alt="User Image" class="welcome-image"> {% endcomment %}
+        </div>
+        <div class="container-rightW">
+            <div id="result">
+                <h3>Potential Result: {% if result == 0 %}non-diabetes{% else %}diabetes{% endif %}</h3>
+                <img src="{% static 'healthPrediction/media/landing_page/dbcheck.jpeg' %}" alt="User Image" class="welcome-image">
+            </div>     
+        </div>
+    </div>
+<div class="containerForm">
+    <div class="container-left ">
+        <form method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
+            {% csrf_token %}
+            <div class="form-row">
+                <label for="id_HighBP">High Blood Pressure:</label>
+                <input type="checkbox" name="HighBP" id="id_HighBP">
+            </div>
+            <div class="form-row">
+                <label for="id_HighChol">High Cholesterol:</label>
+                <input type="checkbox" name="HighChol" id="id_HighChol">
+            </div>
+            <div class="form-row">
+                <label for="id_CholCheck">Cholesterol Check:</label>
+                <input type="checkbox" name="CholCheck" id="id_CholCheck">
+            </div>
+            <div class="form-row">
+                <label for="id_Smoker">Smoker:</label>
+                <input type="checkbox" name="Smoker" id="id_Smoker">
+            </div>
+            <div class="form-row">
+                <label for="id_Stroke">Stroke:</label>
+                <input type="checkbox" name="Stroke" id="id_Stroke">
+            </div>
+            <div class="form-row">
+                <label for="id_HeartDiseaseorAttack">Heart Disease or Attack:</label>
+                <input type="checkbox" name="HeartDiseaseorAttack" id="id_HeartDiseaseorAttack">
+            </div>
+            <div class="form-row">
+                <label for="id_PhysActivity">Physical Activity:</label>
+                <input type="checkbox" name="PhysActivity" id="id_PhysActivity">
+            </div>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+    <div class="container-center">
+        <div class="form-row">
+            <label for="id_Fruits">Fruits Consumption:</label>
+            <input type="checkbox" name="Fruits" id="id_Fruits">
+        </div>
+        <div class="form-row">
+            <label for="id_Veggies">Vegetables Consumption:</label>
+            <input type="checkbox" name="Veggies" id="id_Veggies">
+        </div>
+        <div class="form-row">
+            <label for="id_HvyAlcoholConsump">Heavy Alcohol Consumption:</label>
+            <input type="checkbox" name="HvyAlcoholConsump" id="id_HvyAlcoholConsump">
+        </div>
+        <div class="form-row">
+            <label for="id_AnyHealthcare">Any Healthcare:</label>
+            <input type="checkbox" name="AnyHealthcare" id="id_AnyHealthcare">
+        </div>
+        <div class="form-row">
+            <label for="id_NoDocbcCost">No Doctor Due to Cost:</label>
+            <input type="checkbox" name="NoDocbcCost" id="id_NoDocbcCost">
+        </div>
+        <div class="form-row">
+            <label for="id_DiffWalk">Difficulty Walking:</label>
+            <input type="checkbox" name="DiffWalk" id="id_DiffWalk">
+        </div>
+        <div class="form-row">
+            <label for="id_Sex">Sex:</label>
+            <select name="Sex" id="id_Sex">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        
+    </div>
+    <div class="container-right">
+        <div class="form-row">
+            <label for="id_BMI">Body Mass Index:</label>
+            <input type="number" name="BMI" id="id_BMI" min="0" step="0.01">
+        </div>
+        <div class="form-row">
+            <label for="id_GenHlth">General Health(1-5):</label>
+            <input type="number" name="GenHlth" id="id_GenHlth" min="1" max="5">
+        </div>
+        <div class="form-row">
+            <label for="id_MentHlth">Mental Health(0-30):</label>
+            <input type="number" name="MentHlth" id="id_MentHlth" min="0" max="30">
+        </div>
+        <div class="form-row">
+            <label for="id_PhysHlth">Physical Health(0-30):</label>
+            <input type="number" name="PhysHlth" id="id_PhysHlth" min="0" max="30">
+        </div>
+        <div class="form-row">
+            <label for="id_Age">Age:</label>
+            <input type="number" name="Age" id="id_Age" min="0">
+        </div>
+        
+    </div>
+</div>
 
-    </form>
-    <div id="result">
-        <h3>Potential Result: {% if result == 0 %}non-diabetes{% else %}diabetes{% endif %}</h3>
-    </div>    
 </div>
 {% endblock %}

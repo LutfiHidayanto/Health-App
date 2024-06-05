@@ -1,11 +1,31 @@
 .logo {
     margin-left: 20px;
+    margin-top: 5px;
 }
 .container {
     margin-top: 10px;
 }
 .nav {
     margin-right: 30px !important;
-    margin-top: 15px !important;
-
+    margin-top: 10px !important;
+    max-height: 20px !important;
 }
+.header-area{
+    max-height: 20px !important;        
+    padding-bottom: 20px!important;
+}
+
+.pt-10x {
+    padding-top: 10rem;
+}
+
+.pt-8x {
+    padding-top: 5rem;
+}
+
+.pt-9x {
+    padding-top: 9rem;
+}
+
+
+

@@ -1,0 +1,222 @@
+/* Animasi splash saat checklist */
+input[type="checkbox"]:checked + label {
+    animation: splash 0.5s ease;
+}
+
+@keyframes splash {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Style untuk form container */
+#form-container {
+    margin-top: 20px;
+}
+
+/* Style untuk form */
+#diabetes-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Style untuk tombol submit */
+#diabetes-form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#diabetes-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Style untuk hasil prediksi */
+#result {
+    margin-top: 20px;
+}
+
+/* Style untuk checkbox */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+/* Hover effect saat checklist */
+input[type="checkbox"]:hover {
+    background-color: #f0f0f0;
+}
+/* Style untuk container kolom */
+.form-column {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Style untuk label */
+label {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+label:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style untuk form-row */
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-row label {
+    flex: 5;
+    margin-right: 10px;
+}
+
+.form-row input[type="checkbox"] {
+    flex: 1;
+    height: 45px;
+    margin-bottom: 10px;
+}
+input[type="number"] {
+    border: 1px solid black;
+    height: 40px;
+}
+
+.containerForm{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 20px;
+}
+.container-left,
+.container-center,
+.container-right {
+    width: 30%;
+}
+.pt-8x{
+    /* background-image: url('../media/landing_page/backgrounddiabetes.jpeg');    */
+    background-repeat: no-repeat;
+    background-size: cover;  /* Adjusted to ensure the whole image is visible */
+    background-position: center top; /* Moves the background image slightly up */
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+ 
+}
+.welcomeDiabet {
+    background-image: url('../media/landing_page/bannerdiabetes2.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+
+    width: 1172px;
+    height: 400px;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+
+
+    margin: 20px;
+    
+ 
+}
+
+
+.container-leftW,
+.container-rightW {
+    width: 48%; /* Adjust width to fit your layout */
+}
+
+.welcome-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.container-leftW {
+    flex: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    max-height: 400px;
+}
+
+.container-rightW {
+    flex: 2;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: flex-start; /* Aligns items at the top */
+    height: 100%; /* Make sure the container has height to work with */
+
+}
+#result {
+    background-color: #ffffff; /* White background for the result box */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Padding inside the box */
+    max-width: 500px; /* Maximum width for the result box */
+    width: 100%; /* Ensure it takes the full width up to max-width */
+    text-align: center; /* Center text alignment */
+    margin: 20px;
+}
+
+#result h3 {
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 1.5em; /* Larger font size */
+    color: #333; /* Darker color for the text */
+}
+
+#result img {
+    max-width: 100%; /* Ensure the image fits within the container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Rounded corners for the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for the image */
+}
+
+.welcome-image {
+    max-width: 30%;
+    height: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+

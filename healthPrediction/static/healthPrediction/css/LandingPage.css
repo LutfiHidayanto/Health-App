@@ -647,6 +647,7 @@ header
   .header-area .main-nav .nav li {
     padding-left: 12px;
     padding-right: 12px;
+    
   }
   .header-area .main-nav:before {
     display: none;

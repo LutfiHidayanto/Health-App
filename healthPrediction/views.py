@@ -27,6 +27,9 @@ categorical_features= ['Diabetes_binary', 'HighBP', 'HighChol', 'CholCheck', 'Sm
 def index(request):
     return render(request, 'healthPrediction/index.html')
 
+def landing(request):
+    return render(request, 'healthPrediction/landing.html')
+
 def diabetes_view(request):
     result = ""
     if request.method == 'POST':

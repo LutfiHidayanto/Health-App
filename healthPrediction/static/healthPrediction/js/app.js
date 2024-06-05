@@ -1,15 +1,4 @@
-const scrollButton = document.getElementById('scrollButton');
 
-console.log(scrollButton)
-
-scrollButton.addEventListener('click', function(event) {
-    event.preventDefault();
-
-    window.scrollBy({
-        top: 500,
-        behavior: 'smooth'
-    });
-});
 
 // Langkah 1: Dapatkan elemen DOM
 let nextDom = document.getElementById('next');
@@ -187,57 +176,6 @@ function changeNavbarColor(thumbnailIndex) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Cari tombol "See More" di setiap daftar
-    let seeMoreButtons = document.querySelectorAll('.carousel .item .buttons button');
-    let previousContainerCard = null; // variabel untuk menyimpan containerCard sebelumnya
-
-    seeMoreButtons.forEach(function(button, index) {
-        button.addEventListener('click', function() {
-            // Dapatkan nomor daftar dari indeks (dimulai dari 0)
-            let listNumber = index + 1;
-
-            // Dapatkan kontainer card sesuai dengan nomor daftar
-            let containerCard = document.querySelector(`.containerCard${listNumber}`);
-
-            // Tambahkan kelas "hidden" pada semua containerCard
-            document.querySelectorAll('.containerCard').forEach(function(card) {
-                card.classList.add('hidden');
-            });
-
-            // Hapus kelas "hidden" pada containerCard yang sesuai dengan nomor daftar
-            containerCard.classList.remove('hidden');
-
-                      // Dapatkan posisi offset dari containerCard yang sesuai
-                      let containerCardOffset = containerCard.offsetTop;
-
-                      // Jika ini adalah slide ke-2, scroll ke bawah sejauh 500px saja
-                      if (listNumber === 2) {
-                          window.scrollBy({
-                              top: 610,
-                              behavior: "smooth"
-                          });
-                      } else {
-                          // Jika bukan slide ke-2, scroll ke posisi awal dari containerCard yang sesuai
-                          window.scrollTo({
-                              top: containerCardOffset,
-                              behavior: "smooth"
-                          });
-                      }
-          
-            // Tampilkan nomor daftar yang dipilih di konsol
-            console.log("Daftar yang dipilih:", listNumber);
-
-            // Tambahkan kelas "hidden" pada .containerCard sebelumnya
-            if (previousContainerCard && previousContainerCard !== containerCard) {
-                previousContainerCard.classList.add('hidden');
-            }
-
-            // Simpan containerCard saat ini sebagai previousContainerCard
-            previousContainerCard = containerCard;
-        });
-    });
-});
 
 document.addEventListener("DOMContentLoaded", function() {
     // Cari semua thumbnail

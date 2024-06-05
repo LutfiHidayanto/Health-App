@@ -1,0 +1,166 @@
+  header nav#headernav {
+        margin-top: 20px;
+        width: 100vw; /* Mengisi keseluruhan lebar viewport */
+        height: 40px;
+        background-color: #f1683a; /* Warna default */
+        border-radius: 25px; /* Sudut melengkung */
+        transition: background-color 0.3s ease; /* Animasi perubahan warna */
+        padding-left: 20px; /* Memberikan jarak kiri sebesar 20px */
+        padding-top: 15px;
+    }
+    
+    header nav#headernav a {
+        padding: 5px 20px; /* Memberikan jarak 10px di atas dan bawah, serta 20px kiri dan kanan */
+        color: #eee; /* Warna teks */
+        text-decoration: none; /* Menghapus garis bawah default pada tautan */
+        font-size: 16px; /* Ukuran teks */
+    }
+    
+    .containerCard1 {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Raleway", Arial, sans-serif;
+        background-image: url('image/img1.jpg'); /* Background img1 */
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding-left: 30px;
+    }
+    
+    .containerCard1 .card {
+        position: relative;
+        width: 300px;
+        height: 200px;
+        border-radius: 10px;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5);
+        transition: 0.3s;
+        padding: 0px 50px;
+        background: #fff;
+        cursor: pointer;
+        margin-right: 30px;
+    }
+    
+    .containerCard1 .card:hover {
+        height: 350px;
+    }
+    
+    .containerCard1 .imgbox {
+        position: relative;
+        width: 100%;
+        height: 50%;
+        transform: translateY(-80px);
+        z-index: 99;
+        padding-left: 0px;
+    }
+    
+    .containerCard1 .imgbox img {
+        width: 200px; /* Sesuaikan dengan ukuran yang diinginkan */
+        height: 200px; /* Sesuaikan dengan ukuran yang diinginkan */
+        object-fit: cover;
+        border-radius: 10px; /* Penambahan border radius sesuai kebutuhan */
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.5); /* Efek shadow sesuai kebutuhan */
+    }
+    
+    .containerCard1 .content {
+        padding: 10px 20px;
+        text-align: center;
+        transform: translateY(-450px);
+        opacity: 0;
+        transition: 0.3s;
+    }
+    
+    .containerCard1 .card:hover > .content {
+        opacity: 1;
+        transform: translateY(-180px);
+    }
+    
+    .containerCard1 .content h2 {
+      margin-top: 145px;
+      color: #7f9ead;
+    }
+    
+    .containerCard1 .content p {
+        margin-top: 15px; /* Add margin-top to move buttons down by 40px */
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease-in-out;
+        display: inline-block; /* Make sure the buttons are inline-block to avoid breaking the layout */
+        text-decoration: none; /* Remove underline from link */
+        color: white; /* Ensure text color is white */
+    }
+    
+    .register-btn {
+        background-color: #007bff;
+    }
+    
+    .signin-btn {
+        background-color: #28a745;
+    }
+    
+    .register-btn::before, 
+    .signin-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+        z-index: 1;
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(-100%);
+    }
+    
+    .register-btn:hover::before, 
+    .signin-btn:hover::before {
+        transform: translateX(100%);
+    }
+    
+    .register-btn:hover,
+    .signin-btn:hover {
+        transform: scale(1.05);
+    }
+    
+    .register-btn:hover {
+        background-color: #0056b3;
+    }
+    
+    .signin-btn:hover {
+        background-color: #1e7e34;
+    }
+    
+    .btn span {
+        position: relative;
+        z-index: 2;
+    }
+    .ScrollButton.scroll-to-section a {
+      background-color: blue;
+      background: linear-gradient(90deg, rgba(144,56,166,1) 0%, rgba(16,173,232,1) 100%);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out, transform 0.5s ease-in-out;
+      display: inline-block;
+  }
+  
+  .ScrollButton.scroll-to-section a:hover {
+      background-color: white;
+      color: white;
+      border: 1px solid blue;
+      transform: scale(1.1);
+  }
+
+  
+  

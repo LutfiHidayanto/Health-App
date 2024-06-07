@@ -160,10 +160,23 @@ input[type="number"] {
  
 }
 
-
+.container-left,
+.container-center,
+.container-right {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff; /* Assuming you want a white background for the containers */
+    margin: 10px;
+    
+}
 .container-leftW,
 .container-rightW {
     width: 48%; /* Adjust width to fit your layout */
+}
+
+.containerForm{
+    margin-bottom: 40px;
 }
 
 .welcome-image {

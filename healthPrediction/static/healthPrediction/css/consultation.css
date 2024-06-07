@@ -1,0 +1,30 @@
+body {
+
+}
+
+
+.consultations-container {
+    padding: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.consultations-header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.consultations-headerbg {
+    transition: background-image 0.5s, transform 1s;
+    background-size: cover;
+    height: 100%;  /* Ensure the div expands to the height of its content */
+}
+
+.consultations-headerbg:hover {
+    background-image: url('../media/landing_page/bghover.png'); 
+    content: cover;
+    transform: scale(1.05); 
+}

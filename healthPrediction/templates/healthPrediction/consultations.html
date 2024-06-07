@@ -1,11 +1,18 @@
 {% extends './layout.html' %}
+{% load static %}
 
-{% block title %} Consultations {% endblock %}
+{% block title %}Consultations{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/consultation.css' %}">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+
+{% endblock %}
 
 {% block body %}
-
-<div class="container mx-auto py-12">
-    <h1 class="text-3xl font-bold mb-8 text-center">Consultations</h1>
+<div class="container mx-auto py-12 consultations-container">
+    <h1 class="text-3xl font-bold mb-8 text-center consultations-header">Consultations</h1>
 
     <div class="flex justify-center mb-8">
         <button onclick="showSection('all-doctors')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">All Doctors</button>
@@ -14,7 +21,7 @@
 
     <div id="all-doctors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for doctor in doctors %}
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class=" p-6 rounded-lg shadow-lg consultations-headerbg">
             <img class="w-32 h-32 rounded-full mx-auto mb-4" src="{{ doctor.profile_photo.url }}" alt="Profile Photo">
             <h2 class="text-xl font-semibold text-center">{{ doctor.user.first_name }} {{ doctor.user.last_name }}</h2>
             <p class="text-gray-600 text-center">Specialty: {{ doctor.specialty }}</p>
@@ -37,9 +44,9 @@
         {% endfor %}
     </div>
 
-    <div id="requested-doctor" class="hidden">
+    <div id="requested-doctor" class="hidden consultations-headerbg">
         {% if latest_request and latest_request.status != 'completed' %}
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class=" p-6 rounded-lg shadow-lg consultations-headerbg">
             <img class="w-32 h-32 rounded-full mx-auto mb-4" src="{{ doctor_request.profile_photo.url }}" alt="Profile Photo">
             <h2 class="text-xl font-semibold text-center">{{ doctor_request.user.first_name }} {{ doctor_request.user.last_name }}</h2>
             <p class="text-gray-600 text-center">Specialty: {{ doctor_request.specialty }}</p>
@@ -73,5 +80,4 @@ function showSection(sectionId) {
     document.getElementById(sectionId).classList.remove('hidden');
 }
 </script>
-
 {% endblock %}

@@ -1,0 +1,61 @@
+.checkout-image {
+    width: 20%;
+    height: 20%;
+}
+
+.checkout-container {
+    padding: 80px;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.checkout-header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.checkout-headerbg {
+    transition: background-image 0.5s, transform 1s;
+    background-size: cover;
+}
+
+.checkout-headerbg:hover {
+    background-image: url('../media/landing_page/bghover.png'); 
+    transform: scale(1.05); 
+}
+
+.checkout-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.checkout-table th, .checkout-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.checkout-table th {
+    background-color: #f4f4f4;
+}
+
+.checkout-total {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.complete-purchase-btn {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.checkout-empty-message {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}

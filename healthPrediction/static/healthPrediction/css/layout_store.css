@@ -1,0 +1,69 @@
+.TopTitle{
+    margin-top: 40px;
+  
+}
+
+.pt-8x {
+    /* background-image: url('../media/landing_page/banner1.png'); */
+    background-repeat: no-repeat;
+    background-size: cover;  
+    background-position: center top; 
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    border-radius: 5px;
+ 
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+.welcomeStore {
+    background-image: url('../media/landing_page/banner1f.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    width: 100%;
+    height: 241px;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
+ 
+}
+
+.container-leftW {
+    flex: 4; /* Bagi ruang secara merata di dalam kontainer */
+}
+
+.container-rightW {
+    flex: 7; /* Bagi ruang secara merata di dalam kontainer */
+   
+}
+
+.medicine-card {
+    transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.medicine-card:hover {
+    background-image: url('../media/landing_page/service-bg.jpg');
+    transform: translateY(-40px) scale(1.1);
+}
+
+.textAvaible{
+
+    padding-bottom: 30px;
+    padding-top: 100px;
+}
+
+.containerObat{
+
+    padding-bottom: 50px;
+    padding-top: 30px;
+}
+
+
+
+

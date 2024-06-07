@@ -1,0 +1,24 @@
+.consultation-container {
+    padding: 80px;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.consultation-header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.consultation-headerbg {
+    transition: background-image 0.5s, transform 1s;
+    background-size: cover;
+}
+
+.consultation-headerbg:hover {
+    background-image: url('../media/landing_page/bghover.png'); 
+    content: cover;
+    transform: scale(1.05); 
+}

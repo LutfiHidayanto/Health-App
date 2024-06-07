@@ -1,0 +1,29 @@
+body {
+    background-image: url('../media/landing_page/pro-table-top.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.login-container {
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.9);  /* Optional: To make the content stand out */
+    border-radius: 10px;  /* Optional: To give rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: For a slight shadow effect */
+    transition: background-image 0.5s, transform 1s;
+    background-size: cover;
+}
+
+
+.login-container:hover {
+    background-image: url('../media/landing_page/bghover.png'); 
+    content: cover;
+    transform: scale(1.05); 
+}
+form input,
+form select,
+form textarea {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px; /* Optional: For rounded corners */
+    padding: 0.1rem 0.8rem;
+}

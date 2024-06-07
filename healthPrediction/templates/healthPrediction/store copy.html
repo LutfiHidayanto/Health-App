@@ -1,0 +1,38 @@
+{% extends './layout.html' %}
+{% load static %}
+{% block title %}Medicine List{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/layout_store.css' %}">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+{% endblock %}
+{% block body %}
+
+<div class="pt-8x">
+    <div class="welcomeStore">
+        <div class="container-leftW">
+            <img src="{% static 'healthPrediction/media/store_banner.jpg' %}" alt="Store Banner" class="welcome-image">
+        </div>
+        <div class="container-rightW">
+            <h1 class="text-3xl font-bold mb-8 text-center">Welcome to Our Medicine Store</h1>
+            <p class="text-lg text-center">Find the best medicines for your health needs.</p>
+        </div>
+    </div>
+</div>
+
+<h1 class="text-3xl font-bold mb-8 text-center pt-10x">Available Medicines</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for medicine in medicines %}
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <img class="w-32 h-32 rounded-full mx-auto mb-4" src="{{ medicine.image.url }}" alt="Medicine Image">
+        <h2 class="text-xl font-semibold text-center">{{ medicine.name }}</h2>
+        <p class="text-gray-600 text-center">{{ medicine.description }}</p>
+        <p class="text-gray-600 text-center">Price: ${{ medicine.price }}</p>
+        <p class="text-gray-600 text-center">Stock: {{ medicine.stock }}</p>
+        <div class="text-center mt-4">
+            <a href="{% url 'medicine_detail' medicine.id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

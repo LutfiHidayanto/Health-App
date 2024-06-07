@@ -1,26 +1,35 @@
 {% extends './layout.html' %}
+{% load static %}
 
 {% block title %}Your Cart{% endblock %}
-
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/layout_cart.css' %}">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+{% endblock %}
 {% block body %}
-<div class="container mx-auto py-12">
-    <h1 class="text-3xl font-bold mb-8 text-center">Your Cart</h1>
+<div class="container mx-auto py-12 cart-container">
+    <h1 class="text-3xl font-bold mb-8 text-center cart-header">Your Cart</h1>
     {% if cart_items %}
-    <div class="bg-white p-6 rounded-lg shadow-lg">
+    <div class=" p-6 rounded-lg shadow-lg cart-headerbg">
         <h2 class="text-xl font-semibold">Items:</h2>
-        <ul>
+        <ul class="cart-items">
             {% for item in cart_items %}
-            <li class="mt-2">
+            <li class="mt-2 cart-item">
                 {{ item.quantity }} x {{ item.medicine.name }} - ${{ item.total_price }}
             </li>
             {% endfor %}
         </ul>
-        <p class="text-gray-600 mt-4">Total Quantity: {{ total_quantity }}</p>
-        <p class="text-gray-600 mb-4">Total Price: ${{ total_price }}</p>
-        <a href="{% url 'checkout' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Checkout</a>
+        <p class="text-gray-900 mt-4">Total Quantity: {{ total_quantity }}</p>
+        <p class="text-gray-700 mb-4 cart-total">Total Price: ${{ total_price }}</p>
+        <a href="{% url 'checkout' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 checkout-btn">Checkout</a>
     </div>
     {% else %}
-    <p class="text-center text-gray-600">Your cart is empty.</p>
+    <div class="text-center cart-empty-message">
+        <img src="{% static 'healthPrediction/media/landing_page/cartemptygif.gif' %}" alt="Empty Cart" class="mx-auto mb-4 cart-image">
+        <p class="text-gray-600">Your cart is empty.</p>
+    </div>
     {% endif %}
 </div>
+
 {% endblock %}

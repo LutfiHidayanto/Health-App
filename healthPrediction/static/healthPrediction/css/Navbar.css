@@ -1,3 +1,15 @@
+body {
+    background-image: url('../media/landing_page/backgroundblue.png') !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    background-position: center !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+}
+
+
+
 .logo {
     margin-left: 20px;
     margin-top: 5px;
@@ -25,6 +37,9 @@
 
 .pt-9x {
     padding-top: 9rem;
+}
+.pb-10x{
+    padding-bottom: 10rem;
 }
 
 

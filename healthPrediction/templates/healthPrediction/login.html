@@ -1,26 +1,29 @@
 {% extends "healthPrediction/layout.html" %}
+{% load static %}
 
 {% block title %}User Login{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/login.css' %}">
+{% endblock %}
 
 {% block body %}
-    <div class="flex justify-center">
-        <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-center">User Login</h2>
-            <form action="{% url 'login' %}" method="post">
-                {% csrf_token %}
-                <div class="mb-4">
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                </div>
-                <div class="mb-4">
-                    {{ form.password.label_tag }}
-                    {{ form.password }}
-                </div>
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Login</button>
-            </form>
-        </div>
+<div class="flex justify-center">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mt-32 login-container">
+        <h2 class="text-2xl font-bold mb-6 text-center">User Login</h2>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="mb-4">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Login</button>
+        </form>
     </div>
-
-
+</div>
 {% endblock %}

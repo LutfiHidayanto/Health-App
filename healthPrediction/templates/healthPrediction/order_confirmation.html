@@ -1,11 +1,21 @@
 {% extends './layout.html' %}
+{% load static %}
 
 {% block title %}Order Confirmation{% endblock %}
-
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/order_confirmation.css' %}">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+{% endblock %}
 {% block body %}
-<div class="bg-white p-6 rounded-lg shadow-lg text-center">
-    <h1 class="text-3xl font-bold mb-4">Order Confirmation</h1>
+<div class=" p-6  text-center">
+    
+    <h1 class="mt-top  text-5xl font-bold mb-4">Order Success</h1>
     <p class="text-gray-600 mb-4">Thank you for your purchase! Your order has been placed successfully.</p>
+    <div class="text-center cart-empty-message">
+        <img src="{% static 'healthPrediction/media/landing_page/cartemptygif.gif' %}" alt="Empty Cart" class="mx-auto mb-4 cart-image">
+    
+    </div>
     <a href="{% url 'medicine_list' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Continue Shopping</a>
 </div>
 {% endblock %}

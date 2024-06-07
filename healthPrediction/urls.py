@@ -11,6 +11,10 @@ urlpatterns = [
     path("login/", views.patient_login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("register/", views.patient_register_view, name="register"),
+    path('profile/', views.profile_view, name='profile'),
+    path('profile/edit/', views.edit_profile_view, name='edit_profile'),
+
+
     path("consultations/", views.consultations, name="consultations"),
     path("consultations/<int:doctor_id>/", views.consult_doctor, name="consult_doctor"),
     path("consultations/request/<int:doctor_id>/", views.request_consultation, name="request_consultation"),
@@ -32,6 +36,7 @@ urlpatterns = [
     # path("pharmacist/sell", views.pharmacist_sell_view, name="pharmacist_sell"),
     # path("pharmacist/request", views.pharmacist_request_view, name="pharmacist_request"),
     path('medicines/', views.medicine_list, name='medicine_list'),
+    path('medicines/<str:success_message>/', views.medicine_list, name='medicine_list_with_message'),
     path('medicines/<int:medicine_id>/', views.medicine_detail, name='medicine_detail'),
     path('medicines/<int:medicine_id>/add_to_cart/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.user_cart, name='user_cart'),

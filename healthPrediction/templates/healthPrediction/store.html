@@ -5,42 +5,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
 <link rel="stylesheet" href="{% static 'healthPrediction/css/layout_store.css' %}">
 <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+<script src="{% static 'healthPrediction/js/store.js' %}" defer></script>
 {% endblock %}
 {% block body %}
 <div class="pt-8x">
-    <div class="TopTitle">
-        <h1 class="text-5xl font-bold mb-7 text-center text-gray-900 dark:text-black">Welcome to Our Medicine Store</h1>
-        <p class=" text-center text-gray-700 dark:text-gray-900">Find the best medicines for your health needs.</p>
-      
-            <form class="max-w-md mx-auto pt-3 pb-3" >   
-                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                    </div>
-                    <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search ..." required />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-                </div>
-            </form>
-    </div>
+    <!-- Other content -->
     
-    <div class="welcomeStore" id="welcomeStore">
-        <div class="container-leftW">
-            <!-- Gambar atau konten lainnya di sini -->
-        </div>
-        <div class="container-rightW" id="container-rightW">
-            <h1 class="text-4xl font-bold mb-3 text-center text-gray-900 dark:text-white" id="headline">"Boost your immune system"</h1>
-            <p class="mb-3 text-lg text-center text-gray-700 dark:text-gray-300" id="description">Feel stronger every day</p>
-            <div class="text-center">
-                <button id="getNowButton" class="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300">Get Now</button>
-            </div>
-        </div>
+    {% if success_message %}
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline">{{ success_message }}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 5.652a.5.5 0 01.707.707L10.707 10l4.348 4.348a.5.5 0 01-.707.707L10 10.707l-4.348 4.348a.5.5 0 01-.707-.707L9.293 10 5.652 5.652a.5.5 0 01.707-.707L10 9.293l4.348-4.348z"/></svg>
+        </span>
     </div>
+    {% endif %}
 
-
-    <h1 class="textAvaible text-3xl font-bold text-center text-blue-400 dark:text-blue">Available Medicines</h1>
+    <!-- Medicine cards -->
     <div class="containerObat grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for medicine in medicines %}
         <div class="medicine-card bg-white p-6 rounded-lg shadow-lg">
@@ -50,123 +31,30 @@
             <p class="text-gray-600 text-center dark:text-gray-900">Price: ${{ medicine.price }}</p>
             <p class="text-gray-600 text-center dark:text-gray-900">Stock: {{ medicine.stock }}</p>
             <div class="text-center mt-4">
-                <a href="{% url 'medicine_detail' medicine.id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">View Details</a>
+                <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 add-to-cart-button" data-medicine-id="{{ medicine.id }}">Add to Cart</button>
             </div>
         </div>
-        
         {% endfor %}
     </div>
 
 </div>
 
-<script>
-    
-        
-    document.addEventListener("DOMContentLoaded", function() {
-          // Scroll function for Get Now button
-          const getNowButton = document.getElementById("getNowButton");
-          getNowButton.addEventListener("click", function() {
-              window.scrollBy({ top: 520, left: 0, behavior: 'smooth' });
-          });
-        const medicineCards = document.querySelectorAll(".medicine-card");
-    
-        const texts = [
-        { headline: '"Boost your immune system"', description: 'Feel stronger every day', bg: 'url(../media/landing_page/banner1f.png)' },
-        { headline: '"Experience optimal health"', description: 'Live a vibrant life', bg: 'url(../media/landing_page/banner2.png)' },
-        { headline: '"Natural and effective"', description: 'Your health, our priority', bg: 'url(../media/landing_page/banner3.png)' }
-    ];
-
-    let currentIndex = 0;
-
-    function updateContent() {
-        const welcomeStore = document.getElementById('welcomeStore');
-        const headline = document.getElementById('headline');
-        const description = document.getElementById('description');
-        
-        currentIndex = (currentIndex + 1) % texts.length;
-
-        welcomeStore.style.backgroundImage = texts[currentIndex].bg;
-        headline.innerText = texts[currentIndex].headline;
-        description.innerText = texts[currentIndex].description;
-    }
-
-    setInterval(updateContent, 5000); // Ganti konten setiap 5 detik
+<!-- Modal for adding items to cart -->
+<div id="addToCartModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 class="text-xl font-semibold text-center text-gray-900 dark:text-black">Add to Cart</h2>
+        <div class="text-center mt-4">
+            <button id="decrement" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">-</button>
+            <input type="number" id="quantity" value="1" min="1" class="mx-2 text-center w-16">
+            <button id="increment" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">+</button>
+        </div>
+        <div class="text-center mt-4">
+            <button id="add-to-cart-confirm" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Add to Cart</button>
+        </div>
+    </div>
+</div>
 
 
-
-
-
-        medicineCards.forEach(card => {
-            card.addEventListener("mouseenter", function() {
-                // Memperbesar dan Bergerak ke atas
-                card.style.transform = "translateY(-20px) scale(1.1)";
-                card.style.transition = "transform 0.3s";
-    
-                let cardIndex = [...medicineCards].indexOf(card);
-                let rowIndex = Math.floor(cardIndex / 3);
-                let colIndex = cardIndex % 3;
-    
-                // Identifikasi kontainer di sekitar
-                let prevCard = colIndex > 0 ? medicineCards[cardIndex - 1] : null; // Kiri
-                let nextCard = colIndex < 2 ? medicineCards[cardIndex + 1] : null; // Kanan
-                let aboveCard = rowIndex > 0 ? medicineCards[cardIndex - 3] : null; // Atas
-                let belowCard = rowIndex < Math.floor((medicineCards.length - 1) / 3) ? medicineCards[cardIndex + 3] : null; // Bawah
-    
-                // Terapkan transformasi ke kontainer di sekitar
-                if (prevCard) {
-                    prevCard.style.transform = "translateX(-50px)";
-                    prevCard.style.transition = "transform 0.3s";
-                }
-                if (nextCard) {
-                    nextCard.style.transform = "translateX(50px)";
-                    nextCard.style.transition = "transform 0.3s";
-                }
-                if (aboveCard) {
-                    aboveCard.style.transform = "translateY(-20px)";
-                    aboveCard.style.transition = "transform 0.3s";
-                }
-                if (belowCard) {
-                    belowCard.style.transform = "translateY(20px)";
-                    belowCard.style.transition = "transform 0.3s";
-                }
-            });
-    
-            card.addEventListener("mouseleave", function() {
-                // Mengembalikan ke posisi semula
-                card.style.transform = "none";
-                card.style.transition = "transform 0.3s";
-    
-                let cardIndex = [...medicineCards].indexOf(card);
-                let rowIndex = Math.floor(cardIndex / 3);
-                let colIndex = cardIndex % 3;
-    
-                // Identifikasi kontainer di sekitar
-                let prevCard = colIndex > 0 ? medicineCards[cardIndex - 1] : null; // Kiri
-                let nextCard = colIndex < 2 ? medicineCards[cardIndex + 1] : null; // Kanan
-                let aboveCard = rowIndex > 0 ? medicineCards[cardIndex - 3] : null; // Atas
-                let belowCard = rowIndex < Math.floor((medicineCards.length - 1) / 3) ? medicineCards[cardIndex + 3] : null; // Bawah
-    
-                // Mengembalikan ke posisi semula kontainer di sekitar
-                if (prevCard) {
-                    prevCard.style.transform = "none";
-                    prevCard.style.transition = "transform 0.3s";
-                }
-                if (nextCard) {
-                    nextCard.style.transform = "none";
-                    nextCard.style.transition = "transform 0.3s";
-                }
-                if (aboveCard) {
-                    aboveCard.style.transform = "none";
-                    aboveCard.style.transition = "transform 0.3s";
-                }
-                if (belowCard) {
-                    belowCard.style.transform = "none";
-                    belowCard.style.transition = "transform 0.3s";
-                }
-            });
-        });
-    });
-    
-</script>
 
 {% endblock %}

@@ -24,11 +24,59 @@ features = ['Diabetes_binary', 'HighBP', 'HighChol', 'CholCheck', 'Smoker',
 
 categorical_features= ['Diabetes_binary', 'HighBP', 'HighChol', 'CholCheck', 'Smoker', 'Stroke', 'HeartDiseaseorAttack', 'PhysActivity', 'Fruits', 'Veggies', 'HvyAlcoholConsump', 'AnyHealthcare', 'NoDocbcCost', 'DiffWalk', 'Sex']
 
+
+
+
+
 def index(request):
     return render(request, 'healthPrediction/index.html')
 
 def landing(request):
     return render(request, 'healthPrediction/landing.html')
+
+@login_required
+def profile_view(request):
+    user = request.user
+    profile = None
+    print(user.role)
+    # print(user.photo_profile)
+    if user.role == 'PATIENT':
+        profile = PatientProfile.objects.get(user=user)
+    elif user.role == 'DOCTOR':
+        profile = get_object_or_404(DoctorProfile, user=user)
+    elif user.role == 'PHARMACIST':
+        profile = get_object_or_404(PharmacistProfile, user=user)
+
+    # print(profile)
+
+    return render(request, PATIENT_DIR + 'profile.html', {'profile': profile})
+
+@login_required
+def edit_profile_view(request):
+    user = request.user
+    if user.role == 'PATIENT':        
+        profile = PatientProfile.objects.get(user=user)
+        form_class = PatientProfileForm
+    elif user.role == 'DOCTOR':
+        profile = get_object_or_404(DoctorProfile, user=user)
+        form_class = DoctorProfileForm
+    elif user.role == 'PHARMACIST':
+        profile = get_object_or_404(PharmacistProfile, user=user)
+        form_class = PharmacistProfileForm
+    else:
+        profile = None
+        form_class = None
+
+    if request.method == 'POST':
+        form = form_class(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('profile')
+    else:
+        form = form_class(instance=profile)
+
+    return render(request, PATIENT_DIR + 'edit_profile.html', {'form': form})
 
 def diabetes_view(request):
     result = ""
@@ -189,9 +237,9 @@ def consultation_room(request, request_id):
 
 # Meds Store
 @login_required
-def medicine_list(request):
+def medicine_list(request, success_message=None):
     medicines = Medicine.objects.all()
-    return render(request, PATIENT_DIR + 'store.html', {'medicines': medicines})
+    return render(request, PATIENT_DIR + 'store.html', {'medicines': medicines, 'success_message': success_message})
 
 @login_required
 def medicine_detail(request, medicine_id):
@@ -209,7 +257,10 @@ def add_to_cart(request, medicine_id):
     order_item.quantity += quantity
     order_item.save()
     
-    return HttpResponseRedirect(reverse('medicine_detail', args=[medicine_id]))
+    success_message = 'Item successfully added to cart'  # Add success message here
+    
+    return HttpResponseRedirect(reverse('medicine_list_with_message', kwargs={'success_message': success_message}))
+
 
 @login_required
 def user_cart(request):

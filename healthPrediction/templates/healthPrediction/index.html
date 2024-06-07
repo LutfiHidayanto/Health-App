@@ -30,57 +30,59 @@
           <img src="{% static 'healthPrediction/media/landing_page/slider-left-dec1new.png' %}">
           
           <div class="content">
-              <div class="author">OculoScan</div>
-              <div class="title">Eye Health</div>
-              <div class="topic">Detection</div>
-              <div class="des">
-                  <!-- lorem 50 -->
-                  Fitur "Eye Health Detection" pada OculoScan merupakan salah satu fitur utama yang dirancang untuk memberikan pengguna informasi yang akurat dan penting mengenai kesehatan mata mereka. Fitur ini menggunakan teknologi Neural Network yang canggih untuk menganalisis gambar mata yang diunggah oleh pengguna dan mendeteksi adanya potensi penyakit atau kondisi yang perlu perhatian.
-              </div>
-              <div class="buttons">
-                <button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button>
+            <div class="author">AcesoCare</div>
+            <div class="title">Diabetes Detection</div>
+            <div class="topic">Detection</div>
+            <div class="des">
+                <!-- lorem 50 -->
+                Fitur "Diabetes Detection" pada AcesoCare merupakan salah satu fitur utama yang dirancang untuk memberikan pengguna informasi yang akurat dan penting mengenai kondisi diabetes mereka. Fitur ini menggunakan teknologi Neural Network yang canggih untuk menganalisis data kesehatan yang diunggah oleh pengguna dan mendeteksi adanya potensi diabetes atau kondisi yang perlu perhatian.
+            </div>
+            <div class="buttons">
+            <a href="{% url 'diabetes-view' %}"><button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button></a>
 
-              </div>
+            </div>
           </div>
       </div>
       <div class="item col-lg-3 col-md-6">
         <img src="{% static 'healthPrediction/media/landing_page/slider-left-dec2f.png' %}">
         <div class="content">
-              <div class="author">OculoScan</div>
-              <div class="title">Medisearch</div>
-              <div class="topic">Order</div>
-              <div class="des">
-                  Fitur "MediSearch & Order" dirancang untuk memberikan pengguna kemampuan untuk mencari produk-produk kesehatan yang mereka butuhkan dengan cepat dan mudah, serta melakukan pemesanan secara langsung melalui platform atau aplikasi yang disediakan. Fitur ini menyediakan pengalaman belanja yang terintegrasi dan praktis bagi pengguna yang memerlukan produk-produk kesehatan, mulai dari obat-obatan, suplemen, peralatan medis, hingga produk kesehatan lainnya.   
-              </div>
-              <div class="buttons">
-                <button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button>
-              </div>
+            <div class="author">AcesoCare</div>
+            <div class="title">Medisearch</div>
+            <div class="topic">Order</div>
+            <div class="des">
+                Fitur "MediSearch & Order" dirancang untuk memberikan pengguna kemampuan untuk mencari produk-produk kesehatan yang mereka butuhkan dengan cepat dan mudah, serta melakukan pemesanan secara langsung melalui platform atau aplikasi yang disediakan. Fitur ini menyediakan pengalaman belanja yang terintegrasi dan praktis bagi pengguna yang memerlukan produk-produk kesehatan, mulai dari obat-obatan, suplemen, peralatan medis, hingga produk kesehatan lainnya.   
+            </div>
+            <div class="buttons">
+            <a href="{% url 'medicine_list' %}"><button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button></a>
+            </div>
           </div>
       </div>
       <div class="item col-lg-3 col-md-6">
           <img src="{% static 'healthPrediction/media/landing_page/slider-left-dec3black.png' %}">
           <div class="content">
-              <div class="author">OculoScan</div>
-              <div class="title">E-Clinic</div>
-              <div class="topic">Connect</div>
-              <div class="des">
-                  "eClinic Connect" adalah fitur inovatif yang dirancang untuk memberikan akses mudah dan cepat bagi pengguna untuk melakukan konsultasi medis secara virtual dengan para profesional kesehatan. Dengan menggunakan teknologi telemedis yang canggih, fitur ini menghubungkan pengguna dengan dokter dan tenaga medis terkualifikasi tanpa harus meninggalkan rumah mereka. 
-              </div>
-              <div class="buttons">
-                <button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button>              </div>
+            <div class="author">AcesoCare</div>
+            <div class="title">E-Clinic</div>
+            <div class="topic">Connect</div>
+            <div class="des">
+                "eClinic Connect" adalah fitur inovatif yang dirancang untuk memberikan akses mudah dan cepat bagi pengguna untuk melakukan konsultasi medis secara virtual dengan para profesional kesehatan. Dengan menggunakan teknologi telemedis yang canggih, fitur ini menghubungkan pengguna dengan dokter dan tenaga medis terkualifikasi tanpa harus meninggalkan rumah mereka. 
+            </div>
+            <div class="buttons">
+                <a href="{% url 'consultations' %}"><button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button></a>              
+            </div>
           </div>
       </div>
       <div class="item col-lg-3 col-md-6">
         <img src="{% static 'healthPrediction/media/landing_page/slider-left-dec4b.png' %}">
         <div class="content">
-              <div class="author">OculoScan</div>
+              <div class="author">AcesoCare</div>
               <div class="title">Health Track</div>
               <div class="topic">Records</div>
               <div class="des">
                   Fitur "Health Track Records" adalah solusi yang memungkinkan pengguna untuk mencatat dan melacak riwayat kesehatan mereka secara komprehensif. Dengan fitur ini, pengguna dapat mengelola semua informasi penting tentang kesehatan mereka, mulai dari riwayat penyakit, alergi, riwayat obat-obatan, hingga hasil tes laboratorium dan pemeriksaan medis lainnya.   
               </div>
               <div class="buttons">
-                <button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button>              </div>
+                <a href=""><button id="scrollButton" class="bg-white text-black border border-black px-4 py-2 hover:bg-black hover:text-white">SEE MORE</button></a>              
+              </div>
           </div>
       </div>
   </div>

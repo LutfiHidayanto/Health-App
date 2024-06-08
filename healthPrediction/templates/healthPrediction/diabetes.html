@@ -3,6 +3,8 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'healthPrediction/css/layout_diabetes.css' %}">
 <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 {% endblock %}
 
 {% block body %} 
@@ -10,8 +12,13 @@
     <div class="welcomeDiabet">
         
         <div class="container-leftW">
-            {% comment %} <img src="{% static 'healthPrediction/media/landing_page/bannerdiabetes2.jpeg' %}" alt="User Image" class="welcome-image"> {% endcomment %}
+            <h1 class="text-8xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text">Diabetes</h1>
+
+<h1 class="text-8xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text">
+<span id="typed-check"></span></h1>
         </div>
+        
+        
         <div class="container-rightW">
             <div id="result">
                 <h3>Potential Result: {% if result == 0 %}non-diabetes{% else %}diabetes{% endif %}</h3>
@@ -19,100 +26,133 @@
             </div>     
         </div>
     </div>
-<div class="containerForm">
-    <div class="container-left ">
-        <form method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
+<div class="flex-item containerForm">
+    <form class= "flex-item containerFormColor" method="post" action="{% url 'diabetes-view' %}" id="diabetes-form">
+        <div class="flex-item container-left ">
             {% csrf_token %}
+            
             <div class="form-row">
-                <label for="id_HighBP">High Blood Pressure:</label>
-                <input type="checkbox" name="HighBP" id="id_HighBP">
+                {{ form.HighChol.label_tag }}
+                {{ form.HighChol }}
             </div>
             <div class="form-row">
-                <label for="id_HighChol">High Cholesterol:</label>
-                <input type="checkbox" name="HighChol" id="id_HighChol">
+                {{ form.CholCheck.label_tag }}
+                {{ form.CholCheck }}
             </div>
             <div class="form-row">
-                <label for="id_CholCheck">Cholesterol Check:</label>
-                <input type="checkbox" name="CholCheck" id="id_CholCheck">
+                {{ form.Smoker.label_tag }}
+                {{ form.Smoker }}
             </div>
             <div class="form-row">
-                <label for="id_Smoker">Smoker:</label>
-                <input type="checkbox" name="Smoker" id="id_Smoker">
+                {{ form.Stroke.label_tag }}
+                {{ form.Stroke }}
             </div>
             <div class="form-row">
-                <label for="id_Stroke">Stroke:</label>
-                <input type="checkbox" name="Stroke" id="id_Stroke">
+                {{ form.HeartDiseaseorAttack.label_tag }}
+                {{ form.HeartDiseaseorAttack }}
             </div>
             <div class="form-row">
-                <label for="id_HeartDiseaseorAttack">Heart Disease or Attack:</label>
-                <input type="checkbox" name="HeartDiseaseorAttack" id="id_HeartDiseaseorAttack">
+                {{ form.PhysActivity.label_tag }}
+                {{ form.PhysActivity }}
             </div>
             <div class="form-row">
-                <label for="id_PhysActivity">Physical Activity:</label>
-                <input type="checkbox" name="PhysActivity" id="id_PhysActivity">
+                {{ form.Fruits.label_tag }}
+                {{ form.Fruits }}
             </div>
-            <button type="submit" class="submit-button">Submit</button>
-        </form>
-    </div>
-    <div class="container-center">
-        
-        <div class="form-row">
-            <label for="id_Fruits">Fruits Consumption:</label>
-            <input type="checkbox" name="Fruits" id="id_Fruits">
         </div>
-        <div class="form-row">
-            <label for="id_Veggies">Vegetables Consumption:</label>
-            <input type="checkbox" name="Veggies" id="id_Veggies">
+        <div class="flex-item container-center">
+          
+            <div class="form-row">
+                {{ form.Veggies.label_tag }}
+                {{ form.Veggies }}
+            </div>
+            <div class="form-row">
+                {{ form.HvyAlcoholConsump.label_tag }}
+                {{ form.HvyAlcoholConsump }}
+            </div>
+            <div class="form-row">
+                {{ form.AnyHealthcare.label_tag }}
+                {{ form.AnyHealthcare }}
+            </div>
+            <div class="form-row">
+                {{ form.NoDocbcCost.label_tag }}
+                {{ form.NoDocbcCost }}
+            </div>
+            <div class="form-row">
+                {{ form.DiffWalk.label_tag }}
+                {{ form.DiffWalk }}
+            </div>
+            <div class="form-row">
+                {% comment %} <label for="id_Sex">Sex:</label>
+                <select name="Sex" id="id_Sex">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select> {% endcomment %}
+                {{ form.Sex.label_tag }}
+                {{ form.Sex }}
+            </div>
+            <div class="form-row">
+                {{ form.BMI.label_tag }}
+                {{ form.BMI }}
+            </div>
         </div>
-        <div class="form-row">
-            <label for="id_HvyAlcoholConsump">Heavy Alcohol Consumption:</label>
-            <input type="checkbox" name="HvyAlcoholConsump" id="id_HvyAlcoholConsump">
+        <div class="flex-item container-right">
+            <div class="atas">
+            <div class="form-row">
+                    {{ form.HighBP.label_tag }}
+                    {{ form.HighBP }}
+            </div>
+            <div class="form-row">
+                {{ form.GenHlth.label_tag }}
+                {{ form.GenHlth }}
+            </div>
+            <div class="form-row">
+                {{ form.MentHlth.label_tag }}
+                {{ form.MentHlth }}
+            </div>
+            <div class="form-row">
+                {{ form.PhysHlth.label_tag }}
+                {{ form.PhysHlth }}
+            </div>
+            <div class="form-row">
+                {{ form.Age.label_tag }}
+                {{ form.Age }}
+            </div>
         </div>
-        <div class="form-row">
-            <label for="id_AnyHealthcare">Any Healthcare:</label>
-            <input type="checkbox" name="AnyHealthcare" id="id_AnyHealthcare">
+        <div class="bawah">
+            <div class="submitButtonContainer">
+                <button type="submit" class="submit-button">Submit</button>
+            </div>
         </div>
-        <div class="form-row">
-            <label for="id_NoDocbcCost">No Doctor Due to Cost:</label>
-            <input type="checkbox" name="NoDocbcCost" id="id_NoDocbcCost">
         </div>
-        <div class="form-row">
-            <label for="id_DiffWalk">Difficulty Walking:</label>
-            <input type="checkbox" name="DiffWalk" id="id_DiffWalk">
-        </div>
-        <div class="form-row">
-            <label for="id_Sex">Sex:</label>
-            <select name="Sex" id="id_Sex">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-        </div>
-        
-    </div>
-    <div class="container-right">
-        <div class="form-row">
-            <label for="id_BMI">Body Mass Index:</label>
-            <input type="number" name="BMI" id="id_BMI" min="0" step="0.01">
-        </div>
-        <div class="form-row">
-            <label for="id_GenHlth">General Health(1-5):</label>
-            <input type="number" name="GenHlth" id="id_GenHlth" min="1" max="5">
-        </div>
-        <div class="form-row">
-            <label for="id_MentHlth">Mental Health(0-30):</label>
-            <input type="number" name="MentHlth" id="id_MentHlth" min="0" max="30">
-        </div>
-        <div class="form-row">
-            <label for="id_PhysHlth">Physical Health(0-30):</label>
-            <input type="number" name="PhysHlth" id="id_PhysHlth" min="0" max="30">
-        </div>
-        <div class="form-row">
-            <label for="id_Age">Age:</label>
-            <input type="number" name="Age" id="id_Age" min="0">
-        </div>
-        
-    </div>
+
+    </form>
+
 </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+    // Inisialisasi Typed.js
+    var typed = new Typed('#typed-check', {
+        strings: ['check', 'check', 'check'], // Ganti teks di sini sesuai kebutuhan
+        typeSpeed: 100,
+        loop: true // Aktifkan loop
+    });
+</script>
+
+
+<script>
+// Dapatkan tombol submit
+var submitButton = document.querySelector('.submit-button');
+
+// Tambahkan event listener untuk menghandle klik tombol submit
+submitButton.addEventListener('click', function() {
+    // Lakukan scroll ke atas halaman dengan animasi smooth
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+</script>
 {% endblock %}

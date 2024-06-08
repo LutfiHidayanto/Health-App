@@ -1,5 +1,5 @@
 .TopTitle{
-    margin-top: 40px;
+    margin-top: 100px;
   
 }
 
@@ -16,6 +16,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 50px;
+   
 }
 
 .welcomeStore {
@@ -59,9 +60,10 @@
 }
 
 .containerObat{
-
+    
+       
     padding-bottom: 50px;
-    padding-top: 30px;
+    padding-top: 70px;
 }
 
 .hidden {

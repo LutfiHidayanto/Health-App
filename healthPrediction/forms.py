@@ -43,7 +43,7 @@ class DoctorRegistrationForm(UserCreationForm):
 class DoctorProfileForm(forms.ModelForm):
     specialty = forms.ChoiceField(choices=DoctorProfile.SPECIALTY_CHOICES, required=True)
 
-    class Meta:
+    class Meta: 
         model = DoctorProfile
         fields = ['specialty', 'years_of_experience', 'phone_number', 'profile_photo']
 

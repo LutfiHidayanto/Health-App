@@ -41,18 +41,19 @@
 
 <!-- Modal for adding items to cart -->
 <div id="addToCartModal" class="modal hidden">
-    <div class="modal-content">
+    <div class="modal-content rounded-lg w-full max-w-sm absolute top-[40%] left-[35%] bg-white ">
         <span class="close">&times;</span>
-        <h2 class="text-xl font-semibold text-center text-gray-900 dark:text-black">Add to Cart</h2>
+        <h2 class="text-xl font-semibold text-center text-gray-900 dark:text-black pt-4">Add to Cart</h2>
         <div class="text-center mt-4">
             <button id="decrement" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">-</button>
             <input type="number" id="quantity" value="1" min="1" class="mx-2 text-center w-16">
             <button id="increment" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">+</button>
         </div>
-        <div class="text-center mt-4">
+        <div class="text-center mt-4 mb-4">
             <button id="add-to-cart-confirm" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Add to Cart</button>
         </div>
     </div>
+    
 </div>
 
 

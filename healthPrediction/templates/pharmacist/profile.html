@@ -1,0 +1,81 @@
+{% extends './layout.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+<div class="container mx-auto py-12">
+    <h1 class="text-3xl font-bold mb-8 text-center">Profile</h1>
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
+        <div class="text-center mb-4">
+            <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-24 h-24 rounded-full mx-auto">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Username:</label>
+            <p>{{ user.username }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Email:</label>
+            <p>{{ user.email }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">First Name:</label>
+            <p>{{ user.first_name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Last Name:</label>
+            <p>{{ user.last_name }}</p>
+        </div>
+        <!-- Add more fields based on the profile type -->
+        {% if user.role == 'PATIENT' %}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Sex:</label>
+            <p>{{ profile.sex }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Date of Birth:</label>
+            <p>{{ profile.date_of_birth }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Address:</label>
+            <p>{{ profile.address }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Phone Number:</label>
+            <p>{{ profile.phone_number }}</p>
+        </div>
+        {% elif user.role == "DOCTOR" %}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Specialty:</label>
+            <p>{{ profile.specialty }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Years of Experience:</label>
+            <p>{{ profile.years_of_experience }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Phone Number:</label>
+            <p>{{ profile.phone_number }}</p>
+        </div>
+        {% elif user.role == 'PHARMACIST' %}
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Pharmacy Name:</label>
+            <p>{{ profile.pharmacy_name }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Pharmacy City:</label>
+            <p>{{ profile.pharmacy_city }}</p>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold">Phone Number:</label>
+            <p>{{ profile.phone_number }}</p>
+        </div>
+        {% endif %}
+        <div class="text-center mt-6">
+            <a href="{% url 'edit_profile' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Edit Profile</a>
+        </div>
+        <div class="text-center mt-6">
+            <a href="{% url 'medical_history' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">View Medical History</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

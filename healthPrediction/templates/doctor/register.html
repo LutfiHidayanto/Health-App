@@ -1,64 +1,72 @@
-{% extends "./layout.html" %}
+{% extends "doctor/layout.html" %}
+{% load static %}
 
-{% block title %}Doctor Register{% endblock %}
+{% block title %}Doctor Registration{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link rel="stylesheet" href="{% static 'healthPrediction/css/login.css' %}">
+{% endblock %}
 
 {% block body %}
+<div class="flex justify-center">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mt-32 login-container">
+        <h2 class="text-2xl font-bold mb-6 text-center">Doctor Registration</h2>
+        {% if message %}
+            <div>{{ message }}</div>
+        {% endif %}
+        <form method="post" action="{% url 'doctor_register' %}" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <div class="mb-4">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="mb-4">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+            </div>
+            <div class="mb-4">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+            </div>
+            <div class="mb-4">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div class="mb-4">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+            <div class="mb-4">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
 
-{% if message %}
-<div>{{ message }}</div>
-{% endif %}
+            <!-- Profile Form Fields in Flex Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="mb-4">
+                    {{ profile_form.specialty.label_tag }}
+                    {{ profile_form.specialty }}
+                </div>
+                <div class="mb-4">
+                    {{ profile_form.years_of_experience.label_tag }}
+                    {{ profile_form.years_of_experience }}
+                </div>
+                <div class="mb-4">
+                    {{ profile_form.phone_number.label_tag }}
+                    {{ profile_form.phone_number }}
+                </div>
+                <div class="mb-4">
+                    {{ profile_form.profile_photo.label_tag }}
+                    {{ profile_form.profile_photo }}
+                </div>
+            </div>
 
-
-<div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-<h2 class="text-2xl font-bold mb-6 text-center">Doctor Registration</h2>
-<form method="post" action = "{% url 'doctor_register'%}", enctype='multipart/form-data'>
-    {% csrf_token %}
-    <div class="mb-4">
-        {{ form.username.label_tag }}
-        {{ form.username }}
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Register</button>
+        </form>
+        <div class="mt-3">
+            Have an account?<a  href="{% url 'doctor_login' %}" class="text-blue-300"> Login here</a>
+        </div>
     </div>
-    <div class="mb-4">
-        {{ form.first_name.label_tag }}
-        {{ form.first_name }}
-    </div>
-    <div class="mb-4">
-        {{ form.last_name.label_tag }}
-        {{ form.last_name }}
-    </div>
-    <div class="mb-4">
-        {{ form.email.label_tag }}
-        {{ form.email }}
-    </div>
-    <div class="mb-4">
-        {{ form.password1.label_tag }}
-        {{ form.password1 }}
-    </div>
-    <div class="mb-4">
-        {{ form.password2.label_tag }}
-        {{ form.password2 }}
-    </div>
-
-    <div class="mb-4">
-        {{ profile_form.specialty.label_tag }}
-        {{ profile_form.specialty }}
-    </div>
-    <div class="mb-4">
-        {{ profile_form.years_of_experience.label_tag }}
-        {{ profile_form.years_of_experience }}
-    </div>
-    <div class="mb-4">
-        {{ profile_form.phone_number.label_tag }}
-        {{ profile_form.phone_number }}
-    </div>
-    <div class="mb-4">
-        {{ profile_form.profile_photo.label_tag }}
-        {{ profile_form.profile_photo }}
-    </div>
-    <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Register</button>
-</form>
 </div>
-
-
-
 {% endblock %}

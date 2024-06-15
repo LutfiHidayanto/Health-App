@@ -167,8 +167,6 @@ class PharmacistProfile(models.Model):
     profile_photo = models.ImageField(upload_to='pharmacist_photos/', null=True, blank=True)
 
 
-
-
 @receiver(post_save, sender=Pharmacist)
 def create_user_profile(sender, instance, created, **kwargs):
     if created and instance.role == "PHARMACIST":

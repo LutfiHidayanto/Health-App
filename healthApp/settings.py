@@ -132,3 +132,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'healthPrediction.User'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

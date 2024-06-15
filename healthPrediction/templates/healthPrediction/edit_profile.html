@@ -9,6 +9,26 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-4">
+                {{ user_form.username.label_tag }}
+                {{ user_form.username }}
+            </div>
+            <div class="mb-4">
+                {{ user_form.first_name.label_tag }}
+                {{ user_form.first_name }}
+            </div>
+            <div class="mb-4">
+                {{ user_form.last_name.label_tag }}
+                {{ user_form.last_name }}
+            </div>
+            <div class="mb-4">
+                {{ user_form.email.label_tag }}
+                {{ user_form.email }}
+            </div>
+            <div class="hidden">
+                {{ user_form.password.label_tag }}
+                {{ user_form.password }}
+            </div>
+            <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="profile_photo">Profile Photo</label>
                 {{ form.profile_photo }}
             </div>

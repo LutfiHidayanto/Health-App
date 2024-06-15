@@ -19,6 +19,42 @@ class PatientRegistrationForm(UserCreationForm):
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
 
+class PatientUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['username', 'password', 'first_name', 'last_name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
+class DoctorUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = ['username', 'password', 'first_name', 'last_name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
+
+class PharmacistUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Pharmacist
+        fields = ['username', 'password', 'first_name', 'last_name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
+
+
 class PatientProfileForm(forms.ModelForm):
     sex = forms.ChoiceField(choices=PatientProfile.SEX, required=True)
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))

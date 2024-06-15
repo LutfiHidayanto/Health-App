@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm
+from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm, PatientUpdateForm, DoctorUpdateForm, PharmacistUpdateForm
 from .preprocessing import loadModel, scaleData, predict, convertFormData
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -26,13 +26,20 @@ categorical_features= ['Diabetes_binary', 'HighBP', 'HighChol', 'CholCheck', 'Sm
 
 
 def index(request):
+    if request.user.is_authenticated and not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     return render(request, 'healthPrediction/index.html')
 
 def landing(request):
     return render(request, 'healthPrediction/landing.html')
 
-@login_required
 def profile_view(request):
+    if not request.user.is_authenticated:
+        page_name = "Profile"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
     user = request.user
     profile = None
     roles = User.Role
@@ -48,8 +55,12 @@ def profile_view(request):
         profile = get_object_or_404(PharmacistProfile, user=user)
         return render(request, PHARMACIST_DIR + 'profile.html', {'profile': profile})
     
-@login_required
 def medical_history_view(request):
+    if not request.user.is_authenticated:
+        page_name = "Medical History"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
     user = request.user    
     patient_profile = get_object_or_404(PatientProfile, user=user)
     medical_history = MedicalHistory.objects.filter(patient=patient_profile)
@@ -66,34 +77,72 @@ def medical_history_view(request):
     return render(request, PATIENT_DIR + 'medical_history.html', {'form': form, 'medical_history': medical_history})
 
 
-@login_required
 def edit_profile_view(request):
+    if not request.user.is_authenticated:
+        page_name = "Edit Profile"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
     user = request.user
     if user.role == 'PATIENT':        
         profile = PatientProfile.objects.get(user=user)
         form_class = PatientProfileForm
+        user_form_class = PatientUpdateForm
+        dir = PATIENT_DIR
     elif user.role == 'DOCTOR':
         profile = get_object_or_404(DoctorProfile, user=user)
         form_class = DoctorProfileForm
+        user_form_class = DoctorUpdateForm
+        dir = DOCTOR_DIR
     elif user.role == 'PHARMACIST':
         profile = get_object_or_404(PharmacistProfile, user=user)
         form_class = PharmacistProfileForm
+        user_form_class = PharmacistUpdateForm
+        dir = PHARMACIST_DIR
     else:
         profile = None
         form_class = None
+        user_form_class = None
 
     if request.method == 'POST':
         form = form_class(request.POST, request.FILES, instance=profile)
+        user_form = user_form_class(request.POST, instance=user)
+
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('profile')
+        if user_form.is_valid():
+            username = user_form.cleaned_data.get('username')
+            email = user_form.cleaned_data.get('email')
+            first_name = user_form.cleaned_data.get('first_name')
+            last_name = user_form.cleaned_data.get('last_name')
+
+            print(username, email, first_name, last_name)
+            User.objects.filter(pk=request.user.id).update(
+                username=username, 
+                email=email, 
+                first_name=first_name,
+                last_name=last_name    
+            )
+            
+        messages.success(request, 'Your profile has been updated successfully!')
+        return redirect('profile')
+
+
     else:
         form = form_class(instance=profile)
+        user_form = user_form_class(instance=request.user)
 
-    return render(request, PATIENT_DIR + 'edit_profile.html', {'form': form})
+    return render(request, dir + 'edit_profile.html', {'form': form, 'user_form': user_form})
 
 def diabetes_view(request):
+    if not request.user.is_authenticated:
+        page_name = "Consultations"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     result = ""
     if request.method == 'POST':
         form = diabetesPredictionForm(request.POST)
@@ -130,6 +179,9 @@ def diabetes_view(request):
 def patient_login_view(request):
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -204,8 +256,15 @@ def patient_register_view(request):
     return render(request, PATIENT_DIR +  "register.html", context)
 
 # Consultations
-@login_required
 def consultations(request):
+    if not request.user.is_authenticated:
+        page_name = "Consultations"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     doctors = DoctorProfile.objects.all()
     latest_request = ConsultationRequest.objects.filter(patient=request.user).order_by('-requested_at').first()
 
@@ -223,13 +282,28 @@ def consultations(request):
     }
     return render(request, PATIENT_DIR + 'consultations.html', context)
 
-@login_required
 def consult_doctor(request, doctor_id):
+    if not request.user.is_authenticated:
+        page_name = "Consult Doctor"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
+        
     doctor = get_object_or_404(DoctorProfile, doctor_id=doctor_id)
     return render(request, PATIENT_DIR + 'consult_doctor.html', {'doctor': doctor})
 
-@login_required
 def request_consultation(request, doctor_id):
+    if not request.user.is_authenticated:
+        page_name = "Request Consultations"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     message = ""
     doctor = get_object_or_404(DoctorProfile, doctor_id=doctor_id)
     doctors = DoctorProfile.objects.all()
@@ -251,18 +325,39 @@ def consultation_room(request, request_id):
     return render(request, PATIENT_DIR + 'consultation_room.html', context)
 
 # Meds Store
-@login_required
 def medicine_list(request, success_message=None):
+    if not request.user.is_authenticated:
+        page_name = "Store"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     medicines = Medicine.objects.all()
     return render(request, PATIENT_DIR + 'store.html', {'medicines': medicines, 'success_message': success_message})
 
-@login_required
 def medicine_detail(request, medicine_id):
+    if not request.user.is_authenticated:
+        page_name = "Medicine Detail"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     medicine = get_object_or_404(Medicine, id=medicine_id)
     return render(request, PATIENT_DIR + 'medicine_detail.html', {'medicine': medicine})
 
-@login_required
 def add_to_cart(request, medicine_id):
+    if not request.user.is_authenticated:
+        page_name = "Add cart"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     medicine = get_object_or_404(Medicine, id=medicine_id)
     order, created = Order.objects.get_or_create(user=request.user, status='pending')
     
@@ -277,8 +372,15 @@ def add_to_cart(request, medicine_id):
     return HttpResponseRedirect(reverse('medicine_list_with_message', kwargs={'success_message': success_message}))
 
 
-@login_required
 def user_cart(request):
+    if not request.user.is_authenticated:
+        page_name = "Cart"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     cart = Order.objects.filter(user=request.user, status='pending').first()
     if cart is not None:
         cart_items = cart.items.all() 
@@ -301,8 +403,15 @@ def user_cart(request):
 
     return render(request, PATIENT_DIR + 'user_cart.html',context)
 
-@login_required
 def checkout(request):
+    if not request.user.is_authenticated:
+        page_name = "Checkout"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     order = Order.objects.filter(user=request.user, status='pending').first()
     if request.method == 'POST' and order:
         try:
@@ -337,8 +446,15 @@ def checkout(request):
     return render(request, PATIENT_DIR + 'checkout.html', context)
 
 
-@login_required
 def order_confirmation(request):
+    if not request.user.is_authenticated:
+        page_name = "Order"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     return render(request, PATIENT_DIR + 'order_confirmation.html')
 
 
@@ -347,10 +463,14 @@ def order_confirmation(request):
 def doctor_login_view(request):
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
+        next_url = request.GET.get('next')
+        if next_url:
+            return redirect(next_url)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
+            
             if user is not None:
                 if user.role == "DOCTOR":
                     login(request, user)
@@ -424,6 +544,14 @@ def doctor_register_view(request):
     return render(request, DOCTOR_DIR +  "register.html", context)
 
 def doctor_index(request):
+    if not request.user.is_authenticated:
+        page_name = "Doctor Home"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('doctor_login'))
+    elif not request.user.role == 'DOCTOR':
+        usertype = "Doctor"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     return render(request, DOCTOR_DIR + 'index.html')
 
 def doctor_consultation_room(request, request_id):
@@ -434,16 +562,30 @@ def doctor_consultation_room(request, request_id):
     }
     return render(request, DOCTOR_DIR + 'consultation_room.html', context)
 
-@login_required
 def doctor_dashboard(request):
+    if not request.user.is_authenticated:
+        page_name = "Doctor Dashboard"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('doctor_login'))
+    elif not request.user.role == 'DOCTOR':
+        usertype = "Doctor"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     if request.user.role != User.Role.DOCTOR:
         return HttpResponseRedirect(reverse('index')) 
 
     requests = ConsultationRequest.objects.filter(doctor=request.user)
     return render(request, DOCTOR_DIR + 'dashboard.html', {'requests': requests})
 
-@login_required
 def accept_consultation(request, request_id):
+    if not request.user.is_authenticated:
+        page_name = "Accept Consultations"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('doctor_login'))
+    elif not request.user.role == 'DOCTOR':
+        usertype = "Doctor"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     consultation_request = get_object_or_404(ConsultationRequest, id=request_id, doctor=request.user)
     consultation_request.status = 'accepted'
     consultation_request.accepted_at = timezone.now()
@@ -459,8 +601,15 @@ def accept_consultation(request, request_id):
     messages.success(request, "Consultation request accepted.")
     return HttpResponseRedirect(reverse('doctor_index'))
 
-@login_required
 def mark_consultation_completed(request, request_id):
+    if not request.user.is_authenticated:
+        page_name = "Consultation Completed"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('doctor_login'))
+    elif not request.user.role == 'DOCTOR':
+        usertype = "Doctor"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     consultation_request = get_object_or_404(ConsultationRequest, id=request_id, doctor=request.user)
     consultation_request.status = 'completed'
     consultation_request.completed_at = timezone.now()
@@ -475,8 +624,15 @@ def mark_consultation_completed(request, request_id):
     return HttpResponseRedirect(reverse('doctor_index'))
 
 
-@login_required
 def reject_consultation(request, request_id):
+    if not request.user.is_authenticated:
+        page_name = "Reject Consultations"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('doctor_login'))
+    elif not request.user.role == 'DOCTOR':
+        usertype = "Doctor"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     consultation_request = get_object_or_404(ConsultationRequest, id=request_id, doctor=request.user)
     consultation_request.status = 'rejected'
     consultation_request.save()
@@ -488,6 +644,14 @@ def reject_consultation(request, request_id):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
+def doctor_logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("doctor_login"))
+
+def pharmacist_logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("pharmacist_login"))
 
 
 def register(request):
@@ -624,14 +788,28 @@ def pharmacist_register_view(request):
     return render(request, PHARMACIST_DIR +  "register.html", context)
 
 
-@login_required
 def manage_medicines(request):
+    if not request.user.is_authenticated:
+        page_name = "Manage Medicines"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     medicines = Medicine.objects.filter(pharmacist=request.user)
     print(Medicine)
     return render(request, PHARMACIST_DIR + 'manage_medicines.html', {'medicines': medicines})
 
-@login_required
 def add_medicine(request):
+    if not request.user.is_authenticated:
+        page_name = "Add Medicines"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     if request.method == 'POST':
         form = MedicineForm(request.POST, request.FILES)
         if form.is_valid():
@@ -643,8 +821,15 @@ def add_medicine(request):
         form = MedicineForm()
     return render(request, PHARMACIST_DIR +  'add_medicine.html', {'form': form})
 
-@login_required
 def edit_medicine(request, medicine_id):
+    if not request.user.is_authenticated:
+        page_name = "Edit Medicines"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     medicine = get_object_or_404(Medicine, id=medicine_id, pharmacist=request.user)
     if request.method == 'POST':
         form = MedicineForm(request.POST, request.FILES, instance=medicine)
@@ -655,21 +840,42 @@ def edit_medicine(request, medicine_id):
         form = MedicineForm(instance=medicine)
     return render(request, PHARMACIST_DIR +  'edit_medicine.html', {'form': form})
 
-@login_required
 def delete_medicine(request, medicine_id):
+    if not request.user.is_authenticated:
+        page_name = "Delete Medicines"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     medicine = get_object_or_404(Medicine, id=medicine_id, pharmacist=request.user)
     if request.method == 'POST':
         medicine.delete()
         return redirect('manage_medicines')
     return render(request, PHARMACIST_DIR + 'delete_medicine.html', {'medicine': medicine})
 
-@login_required
 def pharmacist_dashboard(request):
+    if not request.user.is_authenticated:
+        page_name = "Pharmacist Dashboard"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     purchase_requests = PurchaseRequest.objects.filter(pharmacist=request.user)
     return render(request, PHARMACIST_DIR + 'dashboard.html', {'purchase_requests': purchase_requests})
 
-@login_required
 def update_purchase_request_status(request, purchase_request_id, status):
+    if not request.user.is_authenticated:
+        page_name = "Update status"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     purchase_request = get_object_or_404(PurchaseRequest, id=purchase_request_id, pharmacist=request.user)
     purchase_request.status = status
     purchase_request.save()
@@ -684,4 +890,12 @@ def pharmacist_request_view(request):
     pass
 
 def pharmacist_index(request):
+    if not request.user.is_authenticated:
+        page_name = "Pharmacist Home"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.INFO, message)
+        return HttpResponseRedirect(reverse('pharmacist_login'))
+    elif not request.user.role == 'PHARMACIST':
+        usertype = "Pharmacist"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     return render(request, PHARMACIST_DIR + 'index.html')

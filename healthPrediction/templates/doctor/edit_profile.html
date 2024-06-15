@@ -1,0 +1,74 @@
+{% extends './layout.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block body %}
+<div class="container mx-auto py-12">
+    <h1 class="text-3xl font-bold mb-8 text-center">Edit Profile</h1>
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="profile_photo">Profile Photo</label>
+                {{ form.profile_photo }}
+            </div>
+            {% if form.date_of_birth %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="date_of_birth">Date of Birth</label>
+                {{ form.date_of_birth }}
+            </div>
+            {% endif %}
+            {% if form.sex %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="sex">Sex</label>
+                {{ form.sex }}
+            </div>
+            {% endif %}
+            {% if form.address %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="address">Address</label>
+                {{ form.address }}
+            </div>
+            {% endif %}
+            {% if form.phone_number %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone_number">Phone Number</label>
+                {{ form.phone_number }}
+            </div>
+            {% endif %}
+            {% if form.specialty %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="specialty">Specialty</label>
+                {{ form.specialty }}
+            </div>
+            {% endif %}
+            {% if form.years_of_experience %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="years_of_experience">Years of Experience</label>
+                {{ form.years_of_experience }}
+            </div>
+            {% endif %}
+            {% if form.pharmacy_name %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="pharmacy_name">Pharmacy Name</label>
+                {{ form.pharmacy_name }}
+            </div>
+            {% endif %}
+            {% if form.pharmacy_city %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="pharmacy_city">Pharmacy City</label>
+                {{ form.pharmacy_city }}
+            </div>
+            {% endif %}
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300" type="submit">
+                    Save Changes
+                </button>
+                <a href="{% url 'profile' %}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

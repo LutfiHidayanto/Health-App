@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm
+from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm
 from .preprocessing import loadModel, scaleData, predict, convertFormData
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
-from .models import User, Patient, Doctor, Pharmacist, PatientProfile, DoctorProfile, PharmacistProfile, ConsultationRequest, Medicine, Order, OrderItem, PurchaseRequest
+from .models import User, Patient, Doctor, Pharmacist, PatientProfile, DoctorProfile, PharmacistProfile, ConsultationRequest, Medicine, Order, OrderItem, PurchaseRequest, MedicalHistory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils import timezone
@@ -25,9 +25,6 @@ features = ['Diabetes_binary', 'HighBP', 'HighChol', 'CholCheck', 'Smoker',
 categorical_features= ['Diabetes_binary', 'HighBP', 'HighChol', 'CholCheck', 'Smoker', 'Stroke', 'HeartDiseaseorAttack', 'PhysActivity', 'Fruits', 'Veggies', 'HvyAlcoholConsump', 'AnyHealthcare', 'NoDocbcCost', 'DiffWalk', 'Sex']
 
 
-
-
-
 def index(request):
     return render(request, 'healthPrediction/index.html')
 
@@ -38,18 +35,36 @@ def landing(request):
 def profile_view(request):
     user = request.user
     profile = None
-    print(user.role)
-    # print(user.photo_profile)
+    roles = User.Role
+    print(roles.ADMIN)
+    
     if user.role == 'PATIENT':
-        profile = PatientProfile.objects.get(user=user)
+        profile = PatientProfile.objects.get(user=user)       
+        return render(request, PATIENT_DIR + 'profile.html', {'profile': profile})
     elif user.role == 'DOCTOR':
         profile = get_object_or_404(DoctorProfile, user=user)
+        return render(request, DOCTOR_DIR + 'profile.html', {'profile': profile})
     elif user.role == 'PHARMACIST':
         profile = get_object_or_404(PharmacistProfile, user=user)
+        return render(request, PHARMACIST_DIR + 'profile.html', {'profile': profile})
+    
+@login_required
+def medical_history_view(request):
+    user = request.user    
+    patient_profile = get_object_or_404(PatientProfile, user=user)
+    medical_history = MedicalHistory.objects.filter(patient=patient_profile)
+    form = MedicalHistoryForm()
 
-    # print(profile)
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST)
+        if form.is_valid():
+            medical_history_instance = form.save(commit=False)
+            medical_history_instance.patient = patient_profile
+            medical_history_instance.save()
+            return redirect('medical_history')  # Redirect to the same view after saving
+    
+    return render(request, PATIENT_DIR + 'medical_history.html', {'form': form, 'medical_history': medical_history})
 
-    return render(request, PATIENT_DIR + 'profile.html', {'profile': profile})
 
 @login_required
 def edit_profile_view(request):

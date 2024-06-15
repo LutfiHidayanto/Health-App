@@ -54,57 +54,7 @@
             </div>
         </div>
 
-        <!-- Username & Password Login form -->
-        <div class="user_login">
-            <form>
-                <label>Email / Username</label>
-                <input type="text" />
-                <br />
-
-                <label>Password</label>
-                <input type="password" />
-                <br />
-
-                <div class="checkbox">
-                    <input id="remember" type="checkbox" />
-                    <label for="remember">Remember me on this computer</label>
-                </div>
-
-                <div class="action_btns">
-                    <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-                    <div class="one_half last"><a href="#" class="btn btn_red">Login</a></div>
-                </div>
-            </form>
-
-            <a href="#" class="forgot_password">Forgot password?</a>
-        </div>
-
-        <!-- Register Form -->
-        <div class="user_register">
-            <form>
-                <label>Full Name</label>
-                <input type="text" />
-                <br />
-
-                <label>Email Address</label>
-                <input type="email" />
-                <br />
-
-                <label>Password</label>
-                <input type="password" />
-                <br />
-
-                <div class="checkbox">
-                    <input id="send_updates" type="checkbox" />
-                    <label for="send_updates">Send me occasional email updates</label>
-                </div>
-
-                <div class="action_btns">
-                    <div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-                    <div class="one_half last"><a href="#" class="btn btn_red">Register</a></div>
-                </div>
-            </form>
-        </div>
+        
     </section>
 </div>
 
@@ -126,7 +76,7 @@
                     </div> {% endcomment %}
                     <div class="container">
                       <div class="ScrollButton scroll-to-section">
-                          <a href="#contact" class="btn-gradient"  id="scrollButton">Free Quote <i class="fab fa-google-play"></i></a>
+                          <a href="#contact" class="btn-gradient"  id="scrollButton">Get Started <i class="fab fa-google-play"></i></a>
                       </div>
                   </div>
                   
@@ -144,8 +94,8 @@
                         <div class="content">
                             <h2>User</h2>
                             <p>
-                                <a href="register.html" class="btn register-btn"><span>Register</span></a>
-                                <a href="login.html" class="btn signin-btn"><span>Sign In</span></a>
+                                <a href="{% url 'register' %}" class="btn register-btn"><span>Register</span></a>
+                                <a href="{% url 'login' %}" class="btn signin-btn"><span>Sign In</span></a>
                             </p>
                         </div>
                     </div>
@@ -156,8 +106,8 @@
                         <div class="content">
                             <h2>Apoteker</h2>
                             <p>
-                                <a href="register.html" class="btn register-btn"><span>Register</span></a>
-                                <a href="login.html" class="btn signin-btn"><span>Sign In</span></a>
+                                <a href="{% url 'pharmacist_register' %}" class="btn register-btn"><span>Register</span></a>
+                                <a href="{% url 'pharmacist_login' %}" class="btn signin-btn"><span>Sign In</span></a>
                             </p>
                         </div>
                     </div>
@@ -168,8 +118,8 @@
                         <div class="content">
                             <h2>Dokter</h2>
                             <p>
-                                <a href="register.html" class="btn register-btn"><span>Register</span></a>
-                                <a href="login.html" class="btn signin-btn"><span>Sign In</span></a>
+                                <a href="{% url 'doctor_register' %}" class="btn register-btn"><span>Register</span></a>
+                                <a href="{% url 'doctor_login' %}" class="btn signin-btn"><span>Sign In</span></a>
                             </p>
                         </div>
                     </div>

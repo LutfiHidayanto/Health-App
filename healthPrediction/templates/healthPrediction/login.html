@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="flex justify-center">
-    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mt-32 login-container">
+<div class="flex justify-center min-vh-screen items-center">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mt-32 login-container h-1/5">
         <h2 class="text-2xl font-bold mb-6 text-center">User Login</h2>
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}

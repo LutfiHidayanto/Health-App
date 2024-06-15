@@ -5,14 +5,17 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('', views.index, name="index"),
-    path('landing/', views.landing, name="landing"),
+    path('', views.landing, name="landing"),
+    path('home/', views.index, name="index"),
     path('diabetes/', views.diabetes_view, name="diabetes-view"),
     path("login/", views.patient_login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("register/", views.patient_register_view, name="register"),
+
     path('profile/', views.profile_view, name='profile'),
     path('profile/edit/', views.edit_profile_view, name='edit_profile'),
+
+    path('medical_history/', views.medical_history_view, name='medical_history'),
 
 
     path("consultations/", views.consultations, name="consultations"),

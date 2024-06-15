@@ -67,6 +67,15 @@ class PatientProfile(models.Model):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     profile_photo = models.ImageField(upload_to='patient_photos/', null=True, blank=True)
 
+class MedicalHistory(models.Model):
+    patient = models.ForeignKey(PatientProfile, related_name='medical_history', on_delete=models.CASCADE)
+    condition = models.CharField(max_length=255)
+    diagnosis_date = models.DateField()
+    notes = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Medical History of {self.patient.user.username}: {self.condition}"
+
 
 """ DOCTOR """
 

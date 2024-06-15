@@ -1,5 +1,5 @@
 from django import forms
-from .models import diabetesPrediction, User, Patient, Doctor, Pharmacist, PatientProfile, DoctorProfile, PharmacistProfile, Medicine
+from .models import diabetesPrediction, User, Patient, Doctor, Pharmacist, PatientProfile, DoctorProfile, PharmacistProfile, Medicine, MedicalHistory
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
@@ -26,6 +26,14 @@ class PatientProfileForm(forms.ModelForm):
     class Meta:
         model = PatientProfile
         fields = ['date_of_birth', 'sex', 'address', 'phone_number', 'profile_photo']
+
+""" MEDICAL HISTORY FORM """
+class MedicalHistoryForm(forms.ModelForm):
+    diagnosis_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = MedicalHistory
+        fields = ['condition', 'diagnosis_date', 'notes']
 
 
 """ DOCTOR FORM """

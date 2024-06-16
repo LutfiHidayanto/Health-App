@@ -574,7 +574,20 @@ def doctor_dashboard(request):
         return HttpResponseRedirect(reverse('index')) 
 
     requests = ConsultationRequest.objects.filter(doctor=request.user)
-    return render(request, DOCTOR_DIR + 'dashboard.html', {'requests': requests})
+
+      # Count requests by status
+    rejected_count = requests.filter(status='rejected').count()
+    in_progress_count = requests.filter(status='accepted').count()  # Assuming 'accepted' means in progress
+    done_count = requests.filter(status='completed').count()
+
+    context = {
+        'requests': requests,
+        'rejected_count': rejected_count,
+        'in_progress_count': in_progress_count,
+        'done_count': done_count,
+    }
+
+    return render(request, DOCTOR_DIR + 'dashboard.html', context)
 
 def accept_consultation(request, request_id):
     if not request.user.is_authenticated:

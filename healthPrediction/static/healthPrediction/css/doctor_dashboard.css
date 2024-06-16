@@ -1,0 +1,61 @@
+.card {
+    background-color: #fff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 30px; /* Some padding */
+    margin: 10px 0; /* Some margin */
+    transition: box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.count {
+    float: right;
+    margin-left: 10px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('../media/landing_page/client-bg.png') !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-dark-blue {
+    background-color: #1E40AF;
+}
+
+.color-purple {
+    color: #9CAAD9;
+}
+
+main {
+    padding: 0 50px;
+}
+
+#doctor-logo {
+    max-height: 300px;
+}
+
+#text-welcome {
+    font-size: 40px;
+}
+
+
+header {
+    background-color: transparent !important;
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+    padding: 0px !important;
+    margin-top: 0 !important;
+}
+
+header:hover {
+    background-color: white !important;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+
+}

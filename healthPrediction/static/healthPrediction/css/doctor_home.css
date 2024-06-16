@@ -1,0 +1,56 @@
+body {
+    background-image: url('../media/doctor_rsc/doc-index-bg.png') !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top; /* Position the image */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+header {
+    background-color: transparent !important;
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+}
+
+header:hover {
+    background-color: white !important;
+}
+
+
+main {
+    padding-top: 100px; /* Adjust this value to match the height of the navigation bar */
+}
+
+.text-header {
+    font-weight: 700;
+    font-size: 5rem;
+}
+
+.text-subheader {
+    font-size: 1.5rem;
+}
+
+
+#go-dashboard {
+    margin-top: 8.5rem;
+}
+
+a.bg-white {
+    font-weight: 700;
+    font-size: 1.7rem;
+    background-color: white;
+    color: black;
+    padding: 20px 40px; /* Increase padding for a bigger button */
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+a.bg-white:hover {
+    background-color: #e2e8f0; /* Light gray color on hover */
+}
+

@@ -1,25 +1,51 @@
 {% extends "./layout.html" %}
-
+{% load static %}
 
 {% block title %} Doctor Dashboard {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'healthPrediction/css/doctor_dashboard.css' %}">
+{% endblock %}
 
 {% block body %}
 
-<div class="container mx-auto py-12">
-    <h1 class="text-3xl font-bold mb-8 text-center">Consultation Requests</h1>
-    <p class="text-center mb-8">You have {{ waiting_count }} new consultation requests</p>
-    <div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="container mx-auto py-12 px-5">
+    <div class="card mt-12 flex items-end bg-dark-blue">
+        <div class="w-2/3 flex flex-col justify-end pl-10 pb-10">
+            <p id="text-welcome" class="text-white font-medium">Welcome back, Doctor</p>
+            <p class="text-lg color-purple mt-5 font-medium">Have a nice day!</p>
+        </div>
+        <div class="w-1/3">
+            <img src="{% static 'healthPrediction/media/doctor_rsc/doctor_logo.png' %}" id="doctor-logo" alt="Doctor Logo">
+        </div>
+    </div>
+
+    <div class="flex flex-wrap space-x-4">
+        <div class="card bg-red-400 flex-1 font-semibold px-10">
+            Rejected<span class="count">{{ rejected_count }}</span>
+        </div>
+        <div class="card bg-yellow-400 flex-1 font-semibold px-10">
+            In Progress<span class="count">{{ in_progress_count }}</span>
+        </div>
+        <div class="card bg-green-400 flex-1 font-semibold px-10">
+            Done<span class="count">{{ done_count }}</span>
+        </div>
+    </div>
+
+    <div class="flex-col gap-0.5">
         {% for request in requests %}
-        <div class="mb-4 p-4 border rounded">
-            <p><strong>Patient:</strong> {{ request.patient.first_name }} {{ request.patient.last_name }}</p>
-            <p><strong>Status:</strong> {{ request.get_status_display }}</p>
-            <p><strong>Requested At:</strong> {{ request.requested_at }}</p>
-            <div class="mt-2">
+        <div class="mb-4 p-6 card flex justify-between items-center">
+            <div>
+                <p class="text-black font-semibold">Patient: {{ request.patient.first_name }} {{ request.patient.last_name }}</p>
+                <p class="text-black font-semibold">Status: {{ request.get_status_display }}</p>
+                <p class="text-black font-semibold">Requested At: {{ request.requested_at }}</p>
+            </div>
+            <div class="flex flex-col space-y-2">
                 {% if request.status == 'waiting' %}
                 <a href="{% url 'accept_consultation' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Accept</a>
                 <a href="{% url 'reject_consultation' request.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Reject</a>
                 {% elif request.status == 'accepted' %}
                 <a href="{% url 'doctor_consultation_room' request.id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Go to Consultation Room</a>
+                <a href="{% url 'doctor_consultation_room' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">View Medical History</a>
                 <a href="{% url 'mark_consultation_completed' request.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700 transition duration-300">Mark as Completed</a>
                 {% endif %}
             </div>

@@ -1,7 +1,7 @@
-{% extends "healthPrediction/layout.html" %}
+{% extends "pharmacist/layout.html" %}
 {% load static %}
 
-{% block title %}Doctor Login{% endblock %}
+{% block title %}Pharmacist Login{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
@@ -11,7 +11,7 @@
 {% block body %}
 <div class="flex justify-center min-h-screen items-center">
     <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg mt-32 login-container h-1/5">
-        <h2 class="text-2xl font-bold mb-6 text-center">Doctor Login</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center">Pharmacist Login</h2>
         {% if messages %}
         <div class="mb-4">
             {% for message in messages %}
@@ -34,7 +34,7 @@
             <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Login</button>
         </form>
         <div class="mt-3">
-            Don't have an account?<a  href="{% url 'register' %}" class="text-blue-300"> Register here</a>
+            Don't have an account?<a  href="{% url 'pharmacist_register' %}" class="text-blue-300"> Register here</a>
         </div>
     </div>
 </div>

@@ -30,14 +30,14 @@
                 <ul class="nav">
                     <li class="scroll-to-section"><a href="{% url 'pharmacist_index' %}" id="nav-welcome">Home</a></li>
                     <li class="scroll-to-section"><a href="{% url 'pharmacist_dashboard' %}">Dashboard</a></li>
-                    <li class="scroll-to-section"><a href="{% url 'pharmacist_dashboard' %}">Sell</a></li>
+                    <li class="scroll-to-section"><a href="{% url 'manage_medicines' %}">Sell</a></li>
                     {% if user.is_authenticated %}
                         <li class="scroll-to-section">
                             <a href="{% url 'profile' %}">
                                 <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
                             </a>
                         </li>
-                        <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'logout' %}"><i src="{% static 'healthPrediction/media/landing_page/logout.png' %}" alt="Chain App Dev"></i> Logout</a></div></li>
+                        <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'pharmacist_logout' %}"><i src="{% static 'healthPrediction/media/landing_page/logout.png' %}" alt="Chain App Dev"></i> Logout</a></div></li>
                     {% else %}
                         <li><div class="gradient-button"><a id="modal_trigger" class="py-0" href="{% url 'pharmacist_login' %}"><i class="fa fa-sign-in-alt"></i> Sign In Now</a></div></li> 
                         <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'pharmacist_register' %}"><i class="fa fa-sign-in-alt"></i> Register</a></div></li> 

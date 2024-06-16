@@ -51,6 +51,8 @@ urlpatterns = [
     path('pharmacist/manage_medicines/<int:medicine_id>/edit/', views.edit_medicine, name='edit_medicine'),
     path('pharmacist/manage_medicines/<int:medicine_id>/delete/', views.delete_medicine, name='delete_medicine'),
     path('logout/', views.logout_view, name='logout'),
+    path('doctor_logout/', views.doctor_logout_view, name='doctor_logout'),
+    path('pharmacist_logout/', views.pharmacist_logout_view, name='pharmacist_logout'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

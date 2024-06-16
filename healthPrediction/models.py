@@ -162,8 +162,8 @@ class PharmacistProfile(models.Model):
     pharmacy_name = models.CharField(max_length=64, null=True, blank=True)
     pharmacy_city = models.CharField(max_length=64, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=7, null=True, blank=True)
     profile_photo = models.ImageField(upload_to='pharmacist_photos/', null=True, blank=True)
 
 

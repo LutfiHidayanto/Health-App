@@ -6,9 +6,26 @@
 <link rel="stylesheet" href="{% static 'healthPrediction/css/layout_store.css' %}">
 <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
 <script src="{% static 'healthPrediction/js/store.js' %}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 {% endblock %}
 {% block body %}
 <div class="pt-8x">
+    <!-- Flex container for title and search panel -->
+    <div class="ml-28 mt-24">
+        <!-- Title with animation -->
+        <h1 class="text-8xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text">Medicines</h1>
+        <h1 class="text-8xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text">
+            <span id="typed-store"></span>
+        </h1>
+
+        <!-- Search panel -->
+        <div class="w-3/4 mt-4 flex shadow-lg">
+            <input type="text" placeholder="Search..." class="flex-grow px-4 py-2 border rounded-l-lg shadow-inner">
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-r-lg hover:bg-blue-700 transition duration-300 shadow-lg">Search</button>
+        </div>
+        
+    </div>
+    
     <!-- Other content -->
     
     {% if success_message %}
@@ -36,7 +53,6 @@
         </div>
         {% endfor %}
     </div>
-
 </div>
 
 <!-- Modal for adding items to cart -->
@@ -53,9 +69,15 @@
             <button id="add-to-cart-confirm" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Add to Cart</button>
         </div>
     </div>
-    
 </div>
 
-
+<script>
+    // Inisialisasi Typed.js
+    var typed = new Typed('#typed-store', {
+        strings: ['Store'],
+        typeSpeed: 100,
+        loop: true
+    });
+</script>
 
 {% endblock %}

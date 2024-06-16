@@ -22,6 +22,7 @@
 .cart-headerbg {
     transition: background-image 0.5s, transform 1s;
     background-size: cover;
+    background-color: rgb(255, 255, 255);
     }
 .cart-headerbg:hover {
     background-image: url('../media/landing_page/bghover.png'); 

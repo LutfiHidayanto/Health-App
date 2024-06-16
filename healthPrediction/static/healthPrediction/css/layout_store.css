@@ -46,10 +46,11 @@
 
 .medicine-card {
     transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+    background-size: cover;
 }
 
 .medicine-card:hover {
-    background-image: url('../media/landing_page/service-bg.jpg');
+    background-image: url('../media/landing_page/bghover.png');
     transform: translateY(-40px) scale(1.1);
 }
 

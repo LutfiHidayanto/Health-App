@@ -213,7 +213,6 @@ def patient_register_view(request):
             last_name = form.cleaned_data.get('last_name')
 
             print(username, password, email, first_name, last_name)
-        
 
             try:
                 user = Patient.objects.create_user(username=username, password=password, first_name=first_name, last_name=last_name, email=email)

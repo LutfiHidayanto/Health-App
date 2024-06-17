@@ -1,4 +1,3 @@
-
 {% extends './landing_layoutout.html' %}
 {% load static %}
 
@@ -67,19 +66,15 @@
               <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h2>Get The Latest App From App Stores</h2>
-                    <p>Chain App Dev is an app landing page HTML5 template based on Bootstrap v5.1.3 CSS layout provided by TemplateMo, a great website to download free CSS templates.</p>
+                    <h1 class="text-9xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-100 bg-clip-text">Aseso</h1>
+                    <h1 class="text-9xl font-bold text-transparent bg-gradient-to-r text-white bg-clip-text mb-16">
+                        <span id="typed-store"></span>
+                    </h1>
                   </div>
-                  <div class="col-lg-12">
-                    {% comment %} <div class="white-button first-button scroll-to-section">
-                      <a href="#contact">Free Quote <i class="fab fa-apple"></i></a>
-                    </div> {% endcomment %}
-                    <div class="container">
-                      <div class="ScrollButton scroll-to-section">
-                          <a href="#contact" class="btn-gradient"  id="scrollButton">Get Started <i class="fab fa-google-play"></i></a>
-                      </div>
-                  </div>
-                  
+                  <div class="col-lg-12  w-1/6">
+                    <div class="ScrollButton scroll-to-sectioninline-block bg-gray-200 bg-gradient-to-r from-gray-100 to-white shadow-md py-2 px-4 rounded-lg text-blue-500 hover:text-blue-700 hover:from-gray-100 hover:to-white transition duration-300 flex items-center">
+                        <a href="#contact"  id="scrollButton"> Get Started <i class="fab fa-google-play ml-8"></i></a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -151,10 +146,16 @@
 
         // Menggulirkan halaman ke bawah sebesar 500px
         window.scrollBy({
-            top: 500,
+            top: 630,
             behavior: 'smooth'
         });
     });
+    // Inisialisasi Typed.js
+    var typed = new Typed('#typed-store', {
+      strings: ['Care'],
+      typeSpeed: 100,
+      loop: true
+  });
 </script>
   <script src="{% static 'healthPrediction/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'healthPrediction/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -164,6 +165,7 @@
   <script src="{% static 'healthPrediction/js/imagesloaded.js' %}"></script>
   <script src="{% static 'healthPrediction/js/popup.js' %}"></script>
   <script src="{% static 'healthPrediction/js/custom.js' %}"></script>
+  
 
   {% comment %} <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/animation.js"></script>

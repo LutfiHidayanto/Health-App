@@ -1,6 +1,6 @@
 .consultation-container {
-    padding: 80px;
-    max-width: 600px;
+    padding: 150px;
+    max-width: 300px; 
     margin: 0 auto;
     position: relative;
 }
@@ -15,6 +15,7 @@
 .consultation-headerbg {
     transition: background-image 0.5s, transform 1s;
     background-size: cover;
+    background-color: rgb(255, 255, 255);
 }
 
 .consultation-headerbg:hover {

@@ -7,16 +7,26 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
 <link rel="stylesheet" href="{% static 'healthPrediction/css/consultation.css' %}">
 <link rel="stylesheet" href="{% static 'healthPrediction/css/Navbar.css' %}">
-
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 {% endblock %}
 
 {% block body %}
 <div class="container mx-auto py-12 consultations-container">
-    <h1 class="text-3xl font-bold mb-8 text-center consultations-header">Consultations</h1>
+    <div class="ml-28 mt-24">
+        <h1 class="text-8xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text">Doctor</h1>
+        <h1 class="text-8xl font-bold text-transparent bg-gradient-to-r from-blue-300 to-blue-700 bg-clip-text">
+            <span id="typed-consultations"></span>
+        </h1>
 
-    <div class="flex justify-center mb-8">
+        <div class="w-3/4 mt-4 flex shadow-lg">
+            <input type="text" placeholder="Search..." class="flex-grow px-4 py-2 border rounded-l-lg shadow-inner">
+            <button class="bg-blue-500 text-white py-2 px-4 rounded-r-lg hover:bg-blue-700 transition duration-300 shadow-lg">Search</button>
+        </div>
+    </div>
+
+    <div class="flex justify-center mb-8 mt-12">
         <button onclick="showSection('all-doctors')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">All Doctors</button>
-        <button onclick="showSection('requested-doctor')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">Requested Doctor</button>
+        <button onclick="showSection('requested-doctor'); scrollToBottom();" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">Requested Doctor</button>
     </div>
 
     <div id="all-doctors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -74,10 +84,25 @@
 </div>
 
 <script>
-function showSection(sectionId) {
-    document.getElementById('all-doctors').classList.add('hidden');
-    document.getElementById('requested-doctor').classList.add('hidden');
-    document.getElementById(sectionId).classList.remove('hidden');
-}
+    // Inisialisasi Typed.js
+    var typed = new Typed('#typed-consultations', {
+        strings: ['Consultations'],
+        typeSpeed: 100,
+        loop: true
+    });
+
+    function showSection(sectionId) {
+        document.getElementById('all-doctors').classList.add('hidden');
+        document.getElementById('requested-doctor').classList.add('hidden');
+        document.getElementById(sectionId).classList.remove('hidden');
+    }
+    function scrollToBottom() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+
+
 </script>
 {% endblock %}

@@ -4,91 +4,102 @@
 
 {% block body %}
 <div class="container mx-auto py-12">
-    <h1 class="text-3xl font-bold mb-8 text-center">Edit Profile</h1>
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+    <form method="post" enctype="multipart/form-data" class="flex mt-32 justify-center px-20 space-x-10">
+        {% csrf_token %}
+        <div class="flex flex-col space-y-12 items-center bg-white p-6 rounded-lg shadow-lg w-1/4 h-100 hover-container">
+            <div class="flex-shrink-0 mr-4 mt-8" id="logo">
+                <img src="{{ profile.profile_photo.url }}" class="h-56 w-56 rounded-full object-cover" alt="Profile Photo">
+            </div>
+            <div>
+                <!-- Hidden file input -->
+                <label for="file-upload" class="file-upload">
+                    Change Photo
+                    <input class id="file-upload" type="file" name="profile_photo" accept="image/*">
+                </label>
+            </div>
+            
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 hover-container">
+            <h1 class="text-3xl font-medium mb-8 text-center">My Profile</h1>
             <div class="mb-4">
-                {{ user_form.username.label_tag }}
+                <label class="block text-gray-700 text-md font-bold mb-2" for="username">Username</label>
                 {{ user_form.username }}
             </div>
-            <div class="mb-4">
-                {{ user_form.first_name.label_tag }}
-                {{ user_form.first_name }}
+            <div class="flex flex-wrap space-x-28 mb-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="first_name">First Name</label>
+                    {{ user_form.first_name }}
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="last_name">Last Name</label>
+                    {{ user_form.last_name }}
+                </div>
+                <div class="mb-4 hidden">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="last_name">Last Name</label>
+                    {{ user_form.password }}
+                </div>
             </div>
             <div class="mb-4">
-                {{ user_form.last_name.label_tag }}
-                {{ user_form.last_name }}
-            </div>
-            <div class="mb-4">
-                {{ user_form.email.label_tag }}
+                <label class="block text-gray-700 text-md font-bold mb-2" for="email">Email</label>
                 {{ user_form.email }}
-            </div>
-            <div class="hidden">
-                {{ user_form.password.label_tag }}
-                {{ user_form.password }}
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="profile_photo">Profile Photo</label>
-                {{ form.profile_photo }}
             </div>
             {% if form.date_of_birth %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="date_of_birth">Date of Birth</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="date_of_birth">Date of Birth</label>
                 {{ form.date_of_birth }}
             </div>
             {% endif %}
             {% if form.sex %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="sex">Sex</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="sex">Sex</label>
                 {{ form.sex }}
             </div>
             {% endif %}
             {% if form.address %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="address">Address</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="address">Address</label>
                 {{ form.address }}
             </div>
             {% endif %}
             {% if form.phone_number %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone_number">Phone Number</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="phone_number">Phone Number</label>
                 {{ form.phone_number }}
             </div>
             {% endif %}
             {% if form.specialty %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="specialty">Specialty</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="specialty">Specialty</label>
                 {{ form.specialty }}
             </div>
             {% endif %}
             {% if form.years_of_experience %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="years_of_experience">Years of Experience</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="years_of_experience">Years of Experience</label>
                 {{ form.years_of_experience }}
             </div>
             {% endif %}
             {% if form.pharmacy_name %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="pharmacy_name">Pharmacy Name</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="pharmacy_name">Pharmacy Name</label>
                 {{ form.pharmacy_name }}
             </div>
             {% endif %}
             {% if form.pharmacy_city %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="pharmacy_city">Pharmacy City</label>
+                <label class="block text-gray-700 text-md font-bold mb-2" for="pharmacy_city">Pharmacy City</label>
                 {{ form.pharmacy_city }}
             </div>
             {% endif %}
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300" type="submit">
+            <div class="flex items-center justify-between mt-12">
+                <button class="bg-blue-500 text-white py-2 px-10 rounded-lg hover:bg-blue-700 transition duration-300" type="submit">
                     Save Changes
                 </button>
-                <a href="{% url 'profile' %}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                <a href="{% url 'profile' %}" class="inline-block align-baseline font-bold text-md text-blue-500 hover:text-blue-800">
                     Cancel
                 </a>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

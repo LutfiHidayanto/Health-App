@@ -1,16 +1,47 @@
 {% extends './layout.html' %}
+{% load static %}
 
 {% block title %}Edit Medicine{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'healthPrediction/css/doctor_dashboard.css' %}">
+{% endblock %}
 
 {% block body %}
-<div class="bg-white p-6 rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold mb-4 text-center">Edit Medicine</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="text-center mt-4">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Update Medicine</button>
+<div class="container mx-auto py-12 min-h-screen flex flex-col justify-center items-center pl-7">
+    <div class="p-16 w-2/3 rounded-lg shadow-lg">
+        <div class="bg-white mt-20 p-6 rounded-lg shadow-lg px-14">
+            <h1 class="text-3xl font-bold mb-4 text-center">Edit Medicine</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="id_name">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="id_description">Description</label>
+                    {{ form.description }}
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="id_price">Price</label>
+                    {{ form.price }}
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="id_stock">Stock</label>
+                    {{ form.stock }}
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2">Current Image</label>
+                    {% if form.instance.image %}
+                        <img src="{{ form.instance.image.url }}" class="w-40 h-40 object-cover rounded-lg shadow-lg">
+                    {% endif %}
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="id_image">Update Image</label>
+                    {{ form.image }}
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Save Changes</button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}

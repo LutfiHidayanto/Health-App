@@ -9,91 +9,76 @@
             <div class="flex-shrink-0 mr-4 mt-8" id="logo">
                 <img src="{{ profile.profile_photo.url }}" class="h-56 w-56 rounded-full object-cover" alt="Profile Photo">
             </div>
-            <div class="mb-4">
-                <a href="{% url 'change_password' %}" class="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-blue-700 transition duration-300 block text-center mb-4">Change Password</a>
+            <div class="text-center mt-6">
+                <a href="{% url 'medical_history' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">View Medical History</a>
             </div>
         </div>
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 hover-container">
             <h1 class="text-3xl font-medium mb-8 text-center">My Profile</h1>
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="username">Username</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
                 {{ user.username }}
             </div>
             <div class="flex flex-wrap space-x-28 mb-4">
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-md font-bold mb-2" for="first_name">First Name</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="first_name">First Name</label>
                     {{ user.first_name }}
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-md font-bold mb-2" for="last_name">Last Name</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="last_name">Last Name</label>
                     {{ user.last_name }}
                 </div>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="email">Email</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
                 {{ user.email }}
             </div>
             {% if profile.date_of_birth %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="date_of_birth">Date of Birth</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="date_of_birth">Date of Birth</label>
                 {{ profile.date_of_birth }}
             </div>
             {% endif %}
             {% if profile.sex %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="sex">Sex</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="sex">Sex</label>
                 {{ profile.sex }}
             </div>
             {% endif %}
             {% if profile.address %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="address">Address</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="address">Address</label>
                 {{ profile.address }}
             </div>
             {% endif %}
             {% if profile.phone_number %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="phone_number">Phone Number</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone_number">Phone Number</label>
                 {{ profile.phone_number }}
             </div>
             {% endif %}
             {% if profile.specialty %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="specialty">Specialty</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="specialty">Specialty</label>
                 {{ profile.specialty }}
             </div>
             {% endif %}
             {% if profile.years_of_experience %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="years_of_experience">Years of Experience</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="years_of_experience">Years of Experience</label>
                 {{ profile.years_of_experience }}
             </div>
             {% endif %}
             {% if profile.pharmacy_name %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="pharmacy_name">Pharmacy Name</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="pharmacy_name">Pharmacy Name</label>
                 {{ profile.pharmacy_name }}
             </div>
             {% endif %}
             {% if profile.pharmacy_city %}
             <div class="mb-4">
-                <label class="block text-gray-700 text-md font-bold mb-2" for="pharmacy_city">Pharmacy City</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="pharmacy_city">Pharmacy City</label>
                 {{ profile.pharmacy_city }}
-            </div>
-            {% endif %}
-            {% if profile.latitude %}
-            <div class="flex flex-wrap space-x-28 mb-4">
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-md font-bold mb-2" for="latitude">Pharmacy City</label>
-                    {{ profile.latitude }}
-                </div>
-                {% endif %}
-                {% if profile.longitude %}
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-md font-bold mb-2" for="longitude">Pharmacy City</label>
-                    {{ profile.longitude }}
-                </div>
             </div>
             {% endif %}
             <div class="flex items-center justify-between mt-12">

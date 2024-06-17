@@ -1,5 +1,5 @@
 body {
-    background-image: url('../media/doctor_rsc/doc-index-bg.png') !important;
+    background-image: url('../media/pharmacist_rsc/bg-home-pharmacist.png') !important;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center top; /* Position the image */
@@ -27,21 +27,21 @@ main {
 
 .text-header {
     font-weight: 700;
-    font-size: 5rem;
+    font-size: 10vmin;
 }
 
 .text-subheader {
-    font-size: 1.5rem;
+    font-size: 5vmin;
 }
 
 
 #go-dashboard {
-    margin-top: 8.5rem;
+    margin-top: 3.5rem;
 }
 
 a.bg-white {
     font-weight: 700;
-    font-size: 1.7rem;
+    font-size: 5vmin;
     background-color: white;
     color: black;
     padding: 20px 40px; /* Increase padding for a bigger button */

@@ -8,8 +8,8 @@
 
 {% block body %}
 
-<div class="container mx-auto py-12 px-5">
-    <div class="card mt-12 flex items-end bg-dark-blue">
+<div class="container mx-auto py-14 px-5">
+    <div class="card mt-20 flex items-end bg-dark-blue">
         <div class="w-2/3 flex flex-col justify-end pl-10 pb-10">
             <p id="text-welcome" class="text-white font-medium">Welcome back, Doctor</p>
             <p class="text-lg color-purple mt-5 font-medium">Have a nice day!</p>
@@ -30,7 +30,21 @@
             Done<span class="count">{{ done_count }}</span>
         </div>
     </div>
-
+     {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="
+            {% if message.level_tag == 'success' %}bg-green-100 border border-green-400 text-green-700
+            {% elif message.level_tag == 'info' %}bg-blue-100 border border-blue-400 text-blue-700
+            {% elif message.level_tag == 'warning' %}bg-yellow-100 border border-yellow-400 text-yellow-700
+            {% elif message.level_tag == 'error' %}bg-red-100 border border-red-400 text-red-700
+            {% else %}bg-gray-100 border border-gray-400 text-gray-700{% endif %}
+            px-4 py-3 rounded-lg relative" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="flex-col gap-0.5">
         {% for request in requests %}
         <div class="mb-4 p-6 card flex justify-between items-center">
@@ -41,12 +55,12 @@
             </div>
             <div class="flex flex-col space-y-2">
                 {% if request.status == 'waiting' %}
-                <a href="{% url 'accept_consultation' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Accept</a>
-                <a href="{% url 'reject_consultation' request.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Reject</a>
+                <a href="{% url 'accept_consultation' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">Accept</a>
+                <a href="{% url 'reject_consultation' request.id %}" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300">Reject</a>
                 {% elif request.status == 'accepted' %}
-                <a href="{% url 'doctor_consultation_room' request.id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Go to Consultation Room</a>
-                <a href="{% url 'doctor_consultation_room' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">View Medical History</a>
-                <a href="{% url 'mark_consultation_completed' request.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700 transition duration-300">Mark as Completed</a>
+                <a href="{% url 'doctor_consultation_room' request.id %}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">Go to Consultation Room</a>
+                <a href="{% url 'view_medical_history' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">View Medical History</a>
+                <a href="{% url 'mark_consultation_completed' request.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300">Mark as Completed</a>
                 {% endif %}
             </div>
         </div>

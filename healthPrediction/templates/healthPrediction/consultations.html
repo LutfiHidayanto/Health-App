@@ -28,7 +28,22 @@
         <button onclick="showSection('all-doctors')" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">All Doctors</button>
         <button onclick="showSection('requested-doctor'); scrollToBottom();" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 mx-2">Requested Doctor</button>
     </div>
-
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="
+            {% if message.level_tag == 'success' %}bg-green-100 border border-green-400 text-green-700
+            {% elif message.level_tag == 'info' %}bg-blue-100 border border-blue-400 text-blue-700
+            {% elif message.level_tag == 'warning' %}bg-yellow-100 border border-yellow-400 text-yellow-700
+            {% elif message.level_tag == 'error' %}bg-red-100 border border-red-400 text-red-700
+            {% else %}bg-gray-100 border border-gray-400 text-gray-700{% endif %}
+            px-4 py-3 rounded relative" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
     <div id="all-doctors" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for doctor in doctors %}
         <div class=" p-6 rounded-lg shadow-lg consultations-headerbg">
@@ -38,11 +53,8 @@
             <p class="text-gray-600 text-center">Experience: {{ doctor.years_of_experience }} years</p>
             <p class="text-center {{ doctor.is_available|yesno:'text-green-500, text-red-500' }}">{{ doctor.is_available|yesno:'Available, Not Available' }}</p>
             <div class="text-center mt-4">
-                <a href="{% url 'consult_doctor' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Show Profile</a>
-            </div>
-            <div class="text-center mt-4">
                 {% if latest_request and latest_request.status == "rejected" %}
-                    <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
+                    <a href="" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
                     <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
                 {% elif latest_request and latest_request.doctor == doctor.user and latest_request.status != 'completed' %}
                     <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>
@@ -62,12 +74,10 @@
             <p class="text-gray-600 text-center">Specialty: {{ doctor_request.specialty }}</p>
             <p class="text-gray-600 text-center">Experience: {{ doctor_request.years_of_experience }} years</p>
             <p class="text-center {{ doctor_request.is_available|yesno:'text-green-500, text-red-500' }}">{{ doctor_request.is_available|yesno:'Available, Not Available' }}</p>
-            <div class="text-center mt-4">
-                <a href="" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Show Profile</a>
-            </div>
+
             <div class="text-center mt-4">
                 {% if latest_request.status == "rejected" %}
-                    <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
+                    <a href="#" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
                     <a href="{% url 'request_consultation' doctor_request.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
                 {% elif latest_request and latest_request.status == "accepted" %}
                     <a class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>

@@ -43,16 +43,6 @@ main {
 }
 
 
-header {
-    background-color: transparent !important;
-    transition: background-color 0.3s ease; /* Smooth transition effect */
-    padding: 0px !important;
-    margin-top: 0 !important;
-}
-
-header:hover {
-    background-color: white !important;
-}
 
 html, body {
     margin: 0 !important;

@@ -4,74 +4,88 @@
 
 {% block body %}
 <div class="container mx-auto py-12">
-    <h1 class="text-3xl font-bold mb-8 text-center">Profile</h1>
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
-        <div class="text-center mb-4">
-            <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-24 h-24 rounded-full mx-auto">
+    <div  class="flex mt-32 justify-center px-20 space-x-10">
+        <div class="flex flex-col space-y-12 items-center bg-white p-6 rounded-lg shadow-lg w-1/4 h-100 hover-container">
+            <div class="flex-shrink-0 mr-4 mt-8" id="logo">
+                <img src="{{ profile.profile_photo.url }}" class="h-56 w-56 rounded-full object-cover" alt="Profile Photo">
+            </div>
+            <div class="mb-4">
+                <a href="{% url 'change_password' %}" class="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-blue-700 transition duration-300 block text-center mb-4">Change Password</a>
+            </div>
         </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Username:</label>
-            <p>{{ user.username }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Email:</label>
-            <p>{{ user.email }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">First Name:</label>
-            <p>{{ user.first_name }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Last Name:</label>
-            <p>{{ user.last_name }}</p>
-        </div>
-        <!-- Add more fields based on the profile type -->
-        {% if user.role == 'PATIENT' %}
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Sex:</label>
-            <p>{{ profile.sex }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Date of Birth:</label>
-            <p>{{ profile.date_of_birth }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Address:</label>
-            <p>{{ profile.address }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Phone Number:</label>
-            <p>{{ profile.phone_number }}</p>
-        </div>
-        {% elif user.role == 'DOCTOR' %}
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Specialty:</label>
-            <p>{{ profile.specialty }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Years of Experience:</label>
-            <p>{{ profile.years_of_experience }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Phone Number:</label>
-            <p>{{ profile.phone_number }}</p>
-        </div>
-        {% elif user.role == 'PHARMACIST' %}
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Pharmacy Name:</label>
-            <p>{{ profile.pharmacy_name }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Pharmacy City:</label>
-            <p>{{ profile.pharmacy_city }}</p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-bold">Phone Number:</label>
-            <p>{{ profile.phone_number }}</p>
-        </div>
-        {% endif %}
-        <div class="text-center mt-6">
-            <a href="{% url 'edit_profile' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Edit Profile</a>
+        <div class="bg-white p-6 rounded-lg shadow-lg w-1/2 hover-container">
+            <h1 class="text-3xl font-medium mb-8 text-center">My Profile</h1>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="username">Username</label>
+                {{ user.username }}
+            </div>
+            <div class="flex flex-wrap space-x-28 mb-4">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="first_name">First Name</label>
+                    {{ user.first_name }}
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-md font-bold mb-2" for="last_name">Last Name</label>
+                    {{ user.last_name }}
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="email">Email</label>
+                {{ user.email }}
+            </div>
+            {% if profile.date_of_birth %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="date_of_birth">Date of Birth</label>
+                {{ profile.date_of_birth }}
+            </div>
+            {% endif %}
+            {% if profile.sex %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="sex">Sex</label>
+                {{ profile.sex }}
+            </div>
+            {% endif %}
+            {% if profile.address %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="address">Address</label>
+                {{ profile.address }}
+            </div>
+            {% endif %}
+            {% if profile.phone_number %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="phone_number">Phone Number</label>
+                {{ profile.phone_number }}
+            </div>
+            {% endif %}
+            {% if profile.specialty %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="specialty">Specialty</label>
+                {{ profile.specialty }}
+            </div>
+            {% endif %}
+            {% if profile.years_of_experience %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="years_of_experience">Years of Experience</label>
+                {{ profile.years_of_experience }}
+            </div>
+            {% endif %}
+            {% if profile.pharmacy_name %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="pharmacy_name">Pharmacy Name</label>
+                {{ profile.pharmacy_name }}
+            </div>
+            {% endif %}
+            {% if profile.pharmacy_city %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="pharmacy_city">Pharmacy City</label>
+                {{ profile.pharmacy_city }}
+            </div>
+            {% endif %}
+            <div class="flex items-center justify-between mt-12">
+                <a href="{% url 'edit_profile' %}" class="bg-blue-500 text-white py-2 px-10 rounded-lg hover:bg-blue-700 transition duration-300" type="submit">
+                    Edit Profile
+                </a>
+            </div>
         </div>
     </div>
 </div>

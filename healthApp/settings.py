@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-s%*9vcx5#&4v8uhr0nuep*w9_fzpc=&gfe#jk8!e7_o!xrswb4
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
+
+from django.conf.urls import handler404
+
+handler404 = 'healthPrediction.views.custom_404_view'
 
 # Application definition
 
@@ -133,3 +138,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'healthPrediction.User'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+

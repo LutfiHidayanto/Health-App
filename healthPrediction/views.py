@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm, PatientUpdateForm, DoctorUpdateForm, PharmacistUpdateForm
+from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm, PatientUpdateForm, DoctorUpdateForm, PharmacistUpdateForm, PasswordChangeForm
 from .preprocessing import loadModel, scaleData, predict, convertFormData
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.db import IntegrityError
 from .models import User, Patient, Doctor, Pharmacist, PatientProfile, DoctorProfile, PharmacistProfile, ConsultationRequest, Medicine, Order, OrderItem, PurchaseRequest, MedicalHistory
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+
 
 
 PATIENT_DIR = 'healthPrediction/'
@@ -38,7 +39,7 @@ def profile_view(request):
     if not request.user.is_authenticated:
         page_name = "Profile"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     user = request.user
     profile = None
@@ -59,7 +60,7 @@ def medical_history_view(request):
     if not request.user.is_authenticated:
         page_name = "Medical History"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     user = request.user    
     patient_profile = get_object_or_404(PatientProfile, user=user)
@@ -81,7 +82,7 @@ def edit_profile_view(request):
     if not request.user.is_authenticated:
         page_name = "Edit Profile"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     user = request.user
     if user.role == 'PATIENT':        
@@ -111,6 +112,7 @@ def edit_profile_view(request):
         if form.is_valid():
             form.save()
         if user_form.is_valid():
+            print("bruh")
             username = user_form.cleaned_data.get('username')
             email = user_form.cleaned_data.get('email')
             first_name = user_form.cleaned_data.get('first_name')
@@ -134,11 +136,52 @@ def edit_profile_view(request):
 
     return render(request, dir + 'edit_profile.html', {'form': form, 'user_form': user_form})
 
+def change_password_view(request):
+    if not request.user.is_authenticated:
+        page_name = "Change Password"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.ERROR, message)
+        return HttpResponseRedirect(reverse('login'))
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            newpassword = form.cleaned_data.get('new_password1')
+            print(newpassword)
+            user = User.objects.get(pk=request.user.id)
+            print(user)
+            user.set_password(newpassword)
+            user.save()
+            print(user.password)
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    
+    context = {
+        'form': form,
+        'user': request.user,
+    }
+
+    if request.user.role == 'PATIENT':
+        dir = PATIENT_DIR
+    elif request.user.role == 'DOCTOR':
+        dir = DOCTOR_DIR
+    elif request.user.role == 'PHARMACIST':
+        dir = PHARMACIST_DIR
+    else:
+        dir = 'generic/'  # Default directory for other roles
+
+    return render(request, dir + 'change_password.html', context)
+
 def diabetes_view(request):
     if not request.user.is_authenticated:
         page_name = "Consultations"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -259,7 +302,7 @@ def consultations(request):
     if not request.user.is_authenticated:
         page_name = "Consultations"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -285,7 +328,7 @@ def consult_doctor(request, doctor_id):
     if not request.user.is_authenticated:
         page_name = "Consult Doctor"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -298,7 +341,7 @@ def request_consultation(request, doctor_id):
     if not request.user.is_authenticated:
         page_name = "Request Consultations"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -307,12 +350,13 @@ def request_consultation(request, doctor_id):
     doctor = get_object_or_404(DoctorProfile, doctor_id=doctor_id)
     doctors = DoctorProfile.objects.all()
     latest_request = ConsultationRequest.objects.filter(patient=request.user).order_by('-requested_at').first()
-    if latest_request.status != 'completed':
-        messages.warning(request, "Please wait before sending another consultation request!")
+    if latest_request.status != 'completed' and latest_request.status != 'rejected':
+        messages.add_message(request, messages.ERROR, "Please wait before sending another consultation request!")
         return HttpResponseRedirect(reverse('consultations'))
 
+    print("bruh")
     ConsultationRequest.objects.create(patient=request.user, doctor=doctor.user)
-    messages.success(request, "Consultation request sent.")
+    messages.add_message(request, messages.SUCCESS, "Consultation request sent.")
     return HttpResponseRedirect(reverse('consultations'))
 
 def consultation_room(request, request_id):
@@ -328,7 +372,7 @@ def medicine_list(request, success_message=None):
     if not request.user.is_authenticated:
         page_name = "Store"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -340,7 +384,7 @@ def medicine_detail(request, medicine_id):
     if not request.user.is_authenticated:
         page_name = "Medicine Detail"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -352,7 +396,7 @@ def add_to_cart(request, medicine_id):
     if not request.user.is_authenticated:
         page_name = "Add cart"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -375,7 +419,7 @@ def user_cart(request):
     if not request.user.is_authenticated:
         page_name = "Cart"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -406,7 +450,7 @@ def checkout(request):
     if not request.user.is_authenticated:
         page_name = "Checkout"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -449,7 +493,7 @@ def order_confirmation(request):
     if not request.user.is_authenticated:
         page_name = "Order"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('login'))
     elif not request.user.role == 'PATIENT':
         usertype = "Patient"
@@ -546,7 +590,7 @@ def doctor_index(request):
     if not request.user.is_authenticated:
         page_name = "Doctor Home"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('doctor_login'))
     elif not request.user.role == 'DOCTOR':
         usertype = "Doctor"
@@ -565,7 +609,7 @@ def doctor_dashboard(request):
     if not request.user.is_authenticated:
         page_name = "Doctor Dashboard"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('doctor_login'))
     elif not request.user.role == 'DOCTOR':
         usertype = "Doctor"
@@ -573,9 +617,10 @@ def doctor_dashboard(request):
     if request.user.role != User.Role.DOCTOR:
         return HttpResponseRedirect(reverse('index')) 
 
-    requests = ConsultationRequest.objects.filter(doctor=request.user)
+    requests = ConsultationRequest.objects.filter(doctor=request.user).order_by('-requested_at')
 
-      # Count requests by status
+
+    # Count requests by status
     rejected_count = requests.filter(status='rejected').count()
     in_progress_count = requests.filter(status='accepted').count()  # Assuming 'accepted' means in progress
     done_count = requests.filter(status='completed').count()
@@ -593,7 +638,7 @@ def accept_consultation(request, request_id):
     if not request.user.is_authenticated:
         page_name = "Accept Consultations"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('doctor_login'))
     elif not request.user.role == 'DOCTOR':
         usertype = "Doctor"
@@ -617,7 +662,7 @@ def mark_consultation_completed(request, request_id):
     if not request.user.is_authenticated:
         page_name = "Consultation Completed"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('doctor_login'))
     elif not request.user.role == 'DOCTOR':
         usertype = "Doctor"
@@ -640,7 +685,7 @@ def reject_consultation(request, request_id):
     if not request.user.is_authenticated:
         page_name = "Reject Consultations"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('doctor_login'))
     elif not request.user.role == 'DOCTOR':
         usertype = "Doctor"
@@ -649,13 +694,33 @@ def reject_consultation(request, request_id):
     consultation_request.status = 'rejected'
     consultation_request.save()
     messages.success(request, "Consultation request rejected.")
-    return HttpResponseRedirect(reverse('doctor_index'))
+    return HttpResponseRedirect(reverse('doctor_dashboard'))
 
+
+def view_medical_history(request, request_id):
+    # Retrieve the consultation request
+    consultation_request = get_object_or_404(ConsultationRequest, id=request_id)
+    
+    # Ensure the request is accepted before accessing medical history
+    if consultation_request.status != 'accepted':
+        return render(request, 'error.html', {'message': 'Consultation request is not accepted.'})
+    
+    # Retrieve the patient's medical history
+    patient_profile = get_object_or_404(PatientProfile, user=consultation_request.patient)
+
+    medical_history = MedicalHistory.objects.filter(patient=patient_profile).order_by('-diagnosis_date')
+    
+    context = {
+        'consultation_request': consultation_request,
+        'medical_history': medical_history,
+    }
+    
+    return render(request, DOCTOR_DIR + 'view_medical_history.html', context)
 
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("login"))
 
 def doctor_logout_view(request):
     logout(request)
@@ -804,7 +869,7 @@ def manage_medicines(request):
     if not request.user.is_authenticated:
         page_name = "Manage Medicines"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
@@ -817,7 +882,7 @@ def add_medicine(request):
     if not request.user.is_authenticated:
         page_name = "Add Medicines"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
@@ -837,7 +902,7 @@ def edit_medicine(request, medicine_id):
     if not request.user.is_authenticated:
         page_name = "Edit Medicines"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
@@ -856,7 +921,7 @@ def delete_medicine(request, medicine_id):
     if not request.user.is_authenticated:
         page_name = "Delete Medicines"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
@@ -871,7 +936,7 @@ def pharmacist_dashboard(request):
     if not request.user.is_authenticated:
         page_name = "Pharmacist Dashboard"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
@@ -883,7 +948,7 @@ def update_purchase_request_status(request, purchase_request_id, status):
     if not request.user.is_authenticated:
         page_name = "Update status"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
@@ -905,9 +970,12 @@ def pharmacist_index(request):
     if not request.user.is_authenticated:
         page_name = "Pharmacist Home"
         message = f"You have to login to access {page_name}"
-        messages.add_message(request, messages.INFO, message)
+        messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
     elif not request.user.role == 'PHARMACIST':
         usertype = "Pharmacist"
         return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
     return render(request, PHARMACIST_DIR + 'index.html')
+
+def custom_404_view(request, exception=None):
+    return render(request, PATIENT_DIR + '404.html', status=404)

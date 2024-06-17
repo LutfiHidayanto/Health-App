@@ -1,37 +1,67 @@
 {% extends './layout.html' %}
+{% load static %}
 
 {% block title %}Manage Medicines{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'healthPrediction/css/doctor_dashboard.css' %}">
+<style>
+    .medicine-item {
+        background-color: #ffffff;
+        border: 1px solid #d2d6dc;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+    .medicine-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .medicine-item td, .medicine-item th {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #d2d6dc;
+    }
+    .medicine-item th {
+        background-color: #f7fafc;
+        border-top: 2px solid #edf2f7;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-<h1 class="text-3xl font-bold mb-8 text-center">Manage Medicines</h1>
-<div class="text-right mb-4">
-    <a href="{% url 'add_medicine' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Add Medicine</a>
-</div>
-<div class="bg-white p-6 rounded-lg shadow-lg">
-    <table class="table-auto w-full mb-4">
-        <thead>
-            <tr>
-                <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2">Description</th>
-                <th class="px-4 py-2">Price</th>
-                <th class="px-4 py-2">Stock</th>
-                <th class="px-4 py-2">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for medicine in medicines %}
-            <tr>
-                <td class="border px-4 py-2">{{ medicine.name }}</td>
-                <td class="border px-4 py-2">{{ medicine.description }}</td>
-                <td class="border px-4 py-2">${{ medicine.price }}</td>
-                <td class="border px-4 py-2">{{ medicine.stock }}</td>
-                <td class="border px-4 py-2">
-                    <a href="{% url 'edit_medicine' medicine.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700 transition duration-300">Edit</a>
-                    <a href="{% url 'delete_medicine' medicine.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mx-auto py-14 min-h-screen flex-col justify-items-start items-center pl-7">
+    <h1 class="text-3xl font-bold mb-8 mt-20 text-center">Manage Medicines</h1>
+    <div class="text-right mb-4">
+        <a href="{% url 'add_medicine' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Add Medicine</a>
+    </div>
+    <div class="p-6 rounded-lg shadow-lg">
+        <table class="table-auto w-full mb-4 border-separate">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">Name</th>
+                    <th class="px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">Description</th>
+                    <th class="px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">Price</th>
+                    <th class="px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">Stock</th>
+                    <th class="px-4 py-2 bg-gray-200 text-gray-500 rounded-t-lg">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicine in medicines %}
+                <tr class="medicine-item">
+                    <td class="border">{{ medicine.name }}</td>
+                    <td class="border">{{ medicine.description }}</td>
+                    <td class="border">${{ medicine.price }}</td>
+                    <td class="border">{{ medicine.stock }}</td>
+                    <td class="border flex flex-wrap gap-2">
+                        <a href="{% url 'edit_medicine' medicine.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700 transition duration-300">Edit</a>
+                        <a href="{% url 'delete_medicine' medicine.id %}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

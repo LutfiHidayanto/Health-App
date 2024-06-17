@@ -1,0 +1,56 @@
+<!-- view_medical_history.html -->
+
+{% extends "./layout.html" %}
+{% load static %}
+
+{% block title %} Medical History {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'healthPrediction/css/doctor_dashboard.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container mx-auto py-12 px-5">
+    <div class="card mt-20 flex items-end bg-dark-blue">
+        <div class="w-2/3 flex flex-col justify-end pl-10 pb-10">
+            <p id="text-welcome" class="text-white font-medium">Welcome back, Doctor</p>
+            <p class="text-lg color-purple mt-5 font-medium">Have a nice day!</p>
+        </div>
+        <div class="w-1/3">
+            <img src="{% static 'healthPrediction/media/doctor_rsc/doctor_logo.png' %}" id="doctor-logo" alt="Doctor Logo">
+        </div>
+    </div>
+
+    <div class="flex justify-between mt-8">
+        <h2 class="text-2xl font-semibold text-gray-800">Medical History for {{ consultation_request.patient.username }}</h2>
+        <a href="{% url 'doctor_dashboard' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Back to Dashboard</a>
+    </div>
+
+    <div class="mt-6">
+        {% if medical_history %}
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Condition</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diagnosis Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for history in medical_history %}
+                    <tr class="hover:bg-gray-100 transition duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ history.condition }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ history.diagnosis_date }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ history.notes }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-gray-600">No medical history found for this patient.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

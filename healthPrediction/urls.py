@@ -14,6 +14,8 @@ urlpatterns = [
 
     path('profile/', views.profile_view, name='profile'),
     path('profile/edit/', views.edit_profile_view, name='edit_profile'),
+    path('change-password/', views.change_password_view, name='change_password'),
+
 
     path('medical_history/', views.medical_history_view, name='medical_history'),
 
@@ -53,6 +55,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('doctor_logout/', views.doctor_logout_view, name='doctor_logout'),
     path('pharmacist_logout/', views.pharmacist_logout_view, name='pharmacist_logout'),
+    path('view-medical-history/<int:request_id>/', views.view_medical_history, name='view_medical_history'),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

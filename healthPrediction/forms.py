@@ -1,6 +1,7 @@
 from django import forms
 from .models import diabetesPrediction, User, Patient, Doctor, Pharmacist, PatientProfile, DoctorProfile, PharmacistProfile, Medicine, MedicalHistory
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm as DjangoPasswordChangeForm
 
 
 class LoginForm(AuthenticationForm):
@@ -142,3 +143,18 @@ class MedicineForm(forms.ModelForm):
     class Meta:
         model = Medicine
         fields = ['name', 'description', 'price', 'stock', 'image']
+
+class PasswordChangeForm(DjangoPasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Old Password'}),
+        label="Old Password"
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'New Password'}),
+        label="New Password"
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm New Password'}),
+        label="Confirm New Password"
+    )
+

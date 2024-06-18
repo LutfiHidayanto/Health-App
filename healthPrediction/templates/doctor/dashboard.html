@@ -30,7 +30,8 @@
             Done<span class="count">{{ done_count }}</span>
         </div>
     </div>
-     {% if messages %}
+
+    {% if messages %}
     <div class="mb-4">
         {% for message in messages %}
         <div class="
@@ -55,17 +56,89 @@
             </div>
             <div class="flex flex-col space-y-2">
                 {% if request.status == 'waiting' %}
-                <a href="{% url 'accept_consultation' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">Accept</a>
-                <a href="{% url 'reject_consultation' request.id %}" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300">Reject</a>
+                <button onclick="openActionModal('Accept Consultation', 'Are you sure you want to accept this consultation?', '{{ request.id }}', 'accept')" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">Accept</button>
+                <button onclick="openActionModal('Reject Consultation', 'Are you sure you want to reject this consultation?', '{{ request.id }}', 'reject')" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300">Reject</button>
                 {% elif request.status == 'accepted' %}
                 <a href="{% url 'doctor_consultation_room' request.id %}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">Go to Consultation Room</a>
-                <a href="{% url 'view_medical_history' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">View Medical History</a>
-                <a href="{% url 'mark_consultation_completed' request.id %}" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300">Mark as Completed</a>
+                <a href="{% url 'view_medical_history' request.id %}" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 text-center">View Medical History</a>
+                <button onclick="openActionModal('Mark as Completed', 'Are you sure you want to mark this consultation as completed?', '{{ request.id }}', 'complete')" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition duration-300">Mark as Completed</button>
                 {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+<!-- Action Confirmation Modal -->
+<div id="actionModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+  <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
+            <svg class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Action Confirmation</h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500" id="modal-text">Are you sure you want to proceed with this action?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <form method="post" action="{% url 'doctor_dashboard' %}" id="actionForm" class="inline">
+          {% csrf_token %}
+          <input type="hidden" name="request_id" id="requestId">
+          <input type="hidden" name="action_type" id="actionType">
+          <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm" id="actionButton">Confirm</button>
+        </form>
+        <button type="button" onclick="closeActionModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function openActionModal(title, text, requestId, actionType) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-text').textContent = text;
+        document.getElementById('requestId').value = requestId;
+        document.getElementById('actionType').value = actionType;
+
+        let actionButton = document.getElementById('actionButton');
+        switch(actionType) {
+            case 'accept':
+                actionButton.textContent = 'Accept';
+                actionButton.classList.add('bg-green-600', 'hover:bg-green-700');
+                actionButton.classList.remove('bg-red-600', 'hover:bg-red-700', 'bg-yellow-600', 'hover:bg-yellow-700');
+                break;
+            case 'reject':
+                actionButton.textContent = 'Reject';
+                actionButton.classList.add('bg-red-600', 'hover:bg-red-700');
+                actionButton.classList.remove('bg-green-600', 'hover:bg-green-700', 'bg-yellow-600', 'hover:bg-yellow-700');
+                break;
+            case 'complete':
+                actionButton.textContent = 'Mark as Completed';
+                actionButton.classList.add('bg-yellow-600', 'hover:bg-yellow-700');
+                actionButton.classList.remove('bg-green-600', 'hover:bg-green-700', 'bg-red-600', 'hover:bg-red-700');
+                break;
+        }
+
+        document.getElementById('actionModal').classList.remove('hidden');
+    }
+
+    function closeActionModal() {
+        document.getElementById('actionModal').classList.add('hidden');
+    }
+</script>
 
 {% endblock %}

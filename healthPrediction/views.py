@@ -617,8 +617,25 @@ def doctor_dashboard(request):
     if request.user.role != User.Role.DOCTOR:
         return HttpResponseRedirect(reverse('index')) 
 
-    requests = ConsultationRequest.objects.filter(doctor=request.user).order_by('-requested_at')
+    if request.method == 'POST':
+        request_id = request.POST.get('request_id')
+        action_type = request.POST.get('action_type')
+        consultation_request = get_object_or_404(ConsultationRequest, id=request_id, doctor=request.user)
 
+        if action_type == 'accept':
+            consultation_request.status = 'accepted'
+            messages.success(request, 'Consultation accepted successfully.')
+        elif action_type == 'reject':
+            consultation_request.status = 'rejected'
+            messages.error(request, 'Consultation rejected successfully.')
+        elif action_type == 'complete':
+            consultation_request.status = 'completed'
+            messages.warning(request, 'Consultation marked as completed.')
+
+        consultation_request.save()
+        return redirect('doctor_dashboard')
+
+    requests = ConsultationRequest.objects.filter(doctor=request.user).order_by('-requested_at')
 
     # Count requests by status
     rejected_count = requests.filter(status='rejected').count()
@@ -871,11 +888,18 @@ def manage_medicines(request):
         message = f"You have to login to access {page_name}"
         messages.add_message(request, messages.ERROR, message)
         return HttpResponseRedirect(reverse('pharmacist_login'))
-    elif not request.user.role == 'PHARMACIST':
+    elif request.user.role != 'PHARMACIST':
         usertype = "Pharmacist"
-        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
+        return render(request, 'patient/error.html', {'usertype': usertype})
+    
+    if request.method == 'POST':
+        medicine_id = request.POST.get('medicine_id')
+        medicine = get_object_or_404(Medicine, id=medicine_id, pharmacist=request.user)
+        medicine.delete()
+        messages.add_message(request, messages.SUCCESS, "Medicine deleted successfully.")
+        return redirect('manage_medicines')
+
     medicines = Medicine.objects.filter(pharmacist=request.user)
-    print(Medicine)
     return render(request, PHARMACIST_DIR + 'manage_medicines.html', {'medicines': medicines})
 
 def add_medicine(request):

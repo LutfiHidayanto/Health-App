@@ -1,4 +1,5 @@
 {% extends './layout.html' %}
+{% load static %}
 
 {% block title %}Edit Profile{% endblock %}
 
@@ -28,8 +29,11 @@
         {% csrf_token %}
         <div class="flex flex-col space-y-12 items-center bg-white p-6 rounded-lg shadow-lg w-1/4 h-100 hover-container">
             <div class="flex-shrink-0 mr-4 mt-8" id="logo">
-                <img src="{{ profile.profile_photo.url }}" class="h-56 w-56 rounded-full object-cover" alt="Profile Photo">
-            </div>
+                {% if profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
+                {% else %}
+                    <img src="{% static 'healthPrediction/media/landing_page/pfp-def.png' %} %}" alt="pfp-def" class="w-10 h-10 rounded-full">
+                {% endif %}            </div>
             <div>
                 <!-- Hidden file input -->
                 <label for="file-upload" class="file-upload">

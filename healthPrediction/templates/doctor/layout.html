@@ -25,7 +25,11 @@
             <div class="col-12">
               <nav class="main-nav">
                 <a href="{% url 'landing' %}" class="logo max-h-10">
-                  <img src="{% static 'healthPrediction/media/landing_page/logo.png' %}" alt="AcesoCare logo" class="max-h-full h-10"> 
+                    {% if profile.profile_photo %}
+                        <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
+                    {% else %}
+                        <img src="{% static 'healthPrediction/media/landing_page/pfp-def.png' %}" alt="pfp-def" class="w-10 h-10 rounded-full">
+                    {% endif %} 
                 </a>
                 <ul class="nav">
                     <li class="scroll-to-section"><a href="{% url 'doctor_index' %}" id="nav-welcome">Home</a></li>

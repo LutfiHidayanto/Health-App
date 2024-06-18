@@ -892,16 +892,21 @@ def pharmacist_register_view(request):
             latitude = profile_form.cleaned_data.get('latitude')
             phone_number = profile_form.cleaned_data.get('phone_number')
             longitude = profile_form.cleaned_data.get('longitude')
+            profile_photo = profile_form.cleaned_data.get('profile_photo')
+
+            print()
+            print(profile_form.cleaned_data)
 
             # save profile
-            print(pharmacy_name, pharmacy_city, latitude, phone_number, longitude)
+            # print(pharmacy_name, pharmacy_city, latitude, phone_number, longitude, profile_photo)
             profile = PharmacistProfile(
                 user=user,
                 pharmacy_name=pharmacy_name,
                 pharmacy_city=pharmacy_city,
                 latitude=latitude,
                 phone_number=phone_number,
-                longitude=longitude
+                longitude=longitude,
+                profile_photo=profile_photo
             )
             profile.save()
             

@@ -1,4 +1,6 @@
 {% extends './layout.html' %}
+{% load static %}
+
 
 {% block title %}Profile{% endblock %}
 
@@ -7,7 +9,11 @@
     <div  class="flex mt-32 justify-center px-20 space-x-10">
         <div class="flex flex-col space-y-12 items-center bg-white p-6 rounded-lg shadow-lg w-1/4 h-100 hover-container">
             <div class="flex-shrink-0 mr-4 mt-8" id="logo">
-                <img src="{{ profile.profile_photo.url }}" class="h-56 w-56 rounded-full object-cover" alt="Profile Photo">
+                {% if profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-56 h-56 rounded-full object-cover">
+                {% else %}
+                    <img src="{% static 'healthPrediction/media/landing_page/pfp-def.png' %}" alt="pfp-def" class="w-56 h-56 rounded-full object-cover">
+                {% endif %}            
             </div>
             <div class="mb-4">
                 <a href="{% url 'change_password' %}" class="bg-blue-500 text-white py-4 px-8 rounded-lg hover:bg-blue-700 transition duration-300 block text-center mb-4">Change Password</a>

@@ -25,7 +25,7 @@
                 <label class="block text-gray-700 text-md font-bold mb-2" for="username">Username</label>
                 {{ user_form.username }}
             </div>
-            <div class="flex flex-wrap space-x-28 mb-4">
+            <div class="flex flex-wrap gap-x-28 mb-4">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-md font-bold mb-2" for="first_name">First Name</label>
                     {{ user_form.first_name }}
@@ -77,6 +77,12 @@
             <div class="mb-4">
                 <label class="block text-gray-700 text-md font-bold mb-2" for="years_of_experience">Years of Experience</label>
                 {{ form.years_of_experience }}
+            </div>
+            {% endif %}
+            {% if form.is_available %}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-md font-bold mb-2" for="is_available">Available?</label>
+                {{ form.is_available }}
             </div>
             {% endif %}
             {% if form.pharmacy_name %}

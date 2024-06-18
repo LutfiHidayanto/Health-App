@@ -53,9 +53,13 @@
             <p class="text-gray-600 text-center">Experience: {{ doctor.years_of_experience }} years</p>
             <p class="text-center {{ doctor.is_available|yesno:'text-green-500, text-red-500' }}">{{ doctor.is_available|yesno:'Available, Not Available' }}</p>
             <div class="text-center mt-4">
-                {% if latest_request and latest_request.status == "rejected" %}
+                {% if latest_request and latest_request.doctor == doctor.user and latest_request.status == "rejected" %}
                     <a href="" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300">{{ latest_request.status }}</a>
-                    <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
+                    {% if doctor.is_available %}
+                        <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Request Consult Again</a>
+                    {% endif %}
+                {% elif not doctor.is_available %}
+                    <a href="#" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Doctor is busy</a>
                 {% elif latest_request and latest_request.doctor == doctor.user and latest_request.status != 'completed' %}
                     <a href="{% url 'request_consultation' doctor.doctor_id %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">{{ latest_request.status }}</a>
                 {% else %}

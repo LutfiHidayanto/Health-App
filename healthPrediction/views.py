@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm, PatientUpdateForm, DoctorUpdateForm, PharmacistUpdateForm, PasswordChangeForm
+from .forms import diabetesPredictionForm, LoginForm, PatientRegistrationForm, DoctorRegistrationForm, PatientProfileForm, DoctorProfileForm, PharmacistRegistrationForm, PharmacistProfileForm, MedicineForm, MedicalHistoryForm, PatientUpdateForm, DoctorUpdateForm, PharmacistUpdateForm, PasswordChangeForm, DoctorProfileUpdateForm
 from .preprocessing import loadModel, scaleData, predict, convertFormData
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -92,7 +92,7 @@ def edit_profile_view(request):
         dir = PATIENT_DIR
     elif user.role == 'DOCTOR':
         profile = get_object_or_404(DoctorProfile, user=user)
-        form_class = DoctorProfileForm
+        form_class = DoctorProfileUpdateForm
         user_form_class = DoctorUpdateForm
         dir = DOCTOR_DIR
     elif user.role == 'PHARMACIST':
@@ -316,11 +316,15 @@ def consultations(request):
 
     print(latest_request_doctor_profile)
 
+    doctor_in_consultations = None
+    doctor_in_consultations = ConsultationRequest.objects.filter(status='accepted')
+    doctors_accepted = [DoctorProfile.objects.get(user=request.doctor) for request in doctor_in_consultations]
 
     context = {
         'doctors': doctors,
         'latest_request': latest_request,
-        'doctor_request': latest_request_doctor_profile
+        'doctor_request': latest_request_doctor_profile,
+        'latest_doctor': latest_request_doctor_profile
     }
     return render(request, PATIENT_DIR + 'consultations.html', context)
 
@@ -349,9 +353,15 @@ def request_consultation(request, doctor_id):
     message = ""
     doctor = get_object_or_404(DoctorProfile, doctor_id=doctor_id)
     doctors = DoctorProfile.objects.all()
+    
     latest_request = ConsultationRequest.objects.filter(patient=request.user).order_by('-requested_at').first()
-    if latest_request.status != 'completed' and latest_request.status != 'rejected':
+    if latest_request != None and latest_request.status != 'completed' and latest_request.status != 'rejected':
         messages.add_message(request, messages.ERROR, "Please wait before sending another consultation request!")
+        return HttpResponseRedirect(reverse('consultations'))
+
+    latest_doctor_request = ConsultationRequest.objects.filter(doctor=doctor.user).order_by('-requested_at').first()
+    if latest_doctor_request != None and latest_doctor_request.status == 'accepted':
+        messages.add_message(request, messages.ERROR, "Doctor is busy!")
         return HttpResponseRedirect(reverse('consultations'))
 
     print("bruh")
@@ -362,8 +372,9 @@ def request_consultation(request, doctor_id):
 def consultation_room(request, request_id):
     consultation_request = get_object_or_404(ConsultationRequest, id=request_id)
     doctor = consultation_request.doctor
+    doctor_profile = get_object_or_404(DoctorProfile, user=doctor)
     context = {
-        'doctor': doctor,
+        'doctor': doctor_profile,
     }
     return render(request, PATIENT_DIR + 'consultation_room.html', context)
 
@@ -547,10 +558,8 @@ def doctor_register_view(request):
                 user = Doctor.objects.create_user(username=username, password=password, first_name=first_name, last_name=last_name, email=email)
                 user.save()
             except IntegrityError:
-                return render(request, "healthPrediction/register.html", {
-                    "message": "Username already taken."
-                })
-            
+                messages.add_message(request, messages.ERROR, "Username already taken")
+                return HttpResponseRedirect(reverse('doctor_login'))
             # Profile
             user = Doctor.objects.get(username=username)
             print(user)
@@ -572,7 +581,7 @@ def doctor_register_view(request):
             )
             profile.save()
             
-            
+            messages.add_message(request, messages.SUCCESS, "Created account successful;y")
             return HttpResponseRedirect(reverse("doctor_login"))
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
@@ -600,8 +609,9 @@ def doctor_index(request):
 def doctor_consultation_room(request, request_id):
     consultation_request = get_object_or_404(ConsultationRequest, id=request_id)
     patient = consultation_request.patient
+    patient_profile = get_object_or_404(ConsultationRequest, user=patient)
     context = {
-        'patient': patient,
+        'patient': patient_profile,
     }
     return render(request, DOCTOR_DIR + 'consultation_room.html', context)
 
@@ -623,13 +633,32 @@ def doctor_dashboard(request):
         consultation_request = get_object_or_404(ConsultationRequest, id=request_id, doctor=request.user)
 
         if action_type == 'accept':
+            is_in_consultation = ConsultationRequest.objects.filter(doctor=request.user, status='accepted')
+            print(is_in_consultation)
+            if is_in_consultation.exists():
+                messages.error(request, "Please complete the current request first!")
+                return HttpResponseRedirect(reverse('doctor_dashboard'))
+
             consultation_request.status = 'accepted'
+            consultation_request.accepted_at = timezone.now()
+
+            doctor_profile = DoctorProfile.objects.get(user=request.user)
+            doctor_profile.is_available = False
+            doctor_profile.save()
+
             messages.success(request, 'Consultation accepted successfully.')
         elif action_type == 'reject':
             consultation_request.status = 'rejected'
             messages.error(request, 'Consultation rejected successfully.')
         elif action_type == 'complete':
             consultation_request.status = 'completed'
+            consultation_request.completed_at = timezone.now()
+            
+            # Update doctor's availability
+            doctor_profile = DoctorProfile.objects.get(user=request.user)
+            doctor_profile.is_available = True
+            doctor_profile.save()
+
             messages.warning(request, 'Consultation marked as completed.')
 
         consultation_request.save()
@@ -660,6 +689,14 @@ def accept_consultation(request, request_id):
     elif not request.user.role == 'DOCTOR':
         usertype = "Doctor"
         return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
+    
+    is_in_consultation = ConsultationRequest.objects.filter(doctor=request.user, status='accepted')
+    print(is_in_consultation)
+    if is_in_consultation != None:
+        messages.error(request, "Please complete the current request first!")
+        return HttpResponseRedirect(reverse('doctor_dashboard'))
+
+
     consultation_request = get_object_or_404(ConsultationRequest, id=request_id, doctor=request.user)
     consultation_request.status = 'accepted'
     consultation_request.accepted_at = timezone.now()
@@ -669,11 +706,12 @@ def accept_consultation(request, request_id):
         doctor_profile.is_available = False
         doctor_profile.save()
     except Exception:
-        error = "doctor could not be found in the database"
+        messages.success(request, "Error OCcurred.")
+        return HttpResponseRedirect(reverse('doctor_dashboard'))
 
     consultation_request.save()
     messages.success(request, "Consultation request accepted.")
-    return HttpResponseRedirect(reverse('doctor_index'))
+    return HttpResponseRedirect(reverse('doctor_dashboard'))
 
 def mark_consultation_completed(request, request_id):
     if not request.user.is_authenticated:

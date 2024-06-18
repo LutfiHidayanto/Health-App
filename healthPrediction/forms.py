@@ -92,6 +92,13 @@ class DoctorProfileForm(forms.ModelForm):
         model = DoctorProfile
         fields = ['specialty', 'years_of_experience', 'phone_number', 'profile_photo']
 
+class DoctorProfileUpdateForm(forms.ModelForm):
+    specialty = forms.ChoiceField(choices=DoctorProfile.SPECIALTY_CHOICES, required=True)
+
+    class Meta: 
+        model = DoctorProfile
+        fields = ['specialty', 'years_of_experience', 'is_available', 'phone_number', 'profile_photo']
+
 
 """ PHARMACIST FORM """
 class PharmacistRegistrationForm(UserCreationForm):

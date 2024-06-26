@@ -22,7 +22,7 @@
         </ul>
         <p class="text-gray-900 mt-4">Total Quantity: {{ total_quantity }}</p>
         <p class="text-gray-700 mb-4 cart-total">Total Price: ${{ total_price }}</p>
-        <a href="{% url 'checkout' %}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 checkout-btn">Checkout</a>
+        <a href="{% url 'checkout' %}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 checkout-btn ">Checkout</a>
     </div>
     {% else %}
     <div class="text-center cart-empty-message">

@@ -77,6 +77,45 @@ def medical_history_view(request):
     
     return render(request, PATIENT_DIR + 'medical_history.html', {'form': form, 'medical_history': medical_history})
 
+def edit_medical_history_view(request, history_id):
+    if not request.user.is_authenticated:
+        page_name = "Edit Medical Hisotyr"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.ERROR, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
+    patient_profile = get_object_or_404(PatientProfile, user=request.user)
+    medical_history = get_object_or_404(MedicalHistory, id=history_id, patient=patient_profile)
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST, request.FILES, instance=medical_history)
+        if form.is_valid():
+            form.save()
+            return redirect('medical_history')
+    else:
+        form = MedicalHistoryForm(instance=medical_history)
+    return render(request, PATIENT_DIR +  'edit_medical_history.html', {'form': form})
+
+def delete_medical_history(request):
+    if not request.user.is_authenticated:
+        page_name = "Delete Medical History"
+        message = f"You have to login to access {page_name}"
+        messages.add_message(request, messages.ERROR, message)
+        return HttpResponseRedirect(reverse('login'))
+    elif not request.user.role == 'PATIENT':
+        usertype = "Patient"
+        return render(request, PATIENT_DIR + 'error.html', {'usertype': usertype})
+
+    if request.method == 'POST':
+        history_id = request.POST.get('history_id')
+        patient_profile = get_object_or_404(PatientProfile, user=request.user)
+        history = get_object_or_404(MedicalHistory, id=history_id, patient=patient_profile)
+        history.delete()
+        messages.add_message(request, messages.SUCCESS, "Medicine deleted successfully.")
+        return redirect('medical_history')
+    # return render(request, PATIENT_DIR + 'delete_medical_history.html', {'medical_history': medical_history})
+
 
 def edit_profile_view(request):
     if not request.user.is_authenticated:

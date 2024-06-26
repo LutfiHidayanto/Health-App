@@ -18,6 +18,8 @@ urlpatterns = [
 
 
     path('medical_history/', views.medical_history_view, name='medical_history'),
+    path('medical_history/edit/<int:history_id>/', views.edit_medical_history_view, name='edit_medical_history'),
+    path('medical_history/delete/', views.delete_medical_history, name='delete_medical_history'),
 
 
     path("consultations/", views.consultations, name="consultations"),
@@ -55,6 +57,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('doctor_logout/', views.doctor_logout_view, name='doctor_logout'),
     path('pharmacist_logout/', views.pharmacist_logout_view, name='pharmacist_logout'),
+    path('view-medical-history/<int:request_id>/', views.view_medical_history, name='view_medical_history'),
     path('view-medical-history/<int:request_id>/', views.view_medical_history, name='view_medical_history'),
 
 

@@ -23,11 +23,7 @@
             <div class="col-12">
               <nav class="main-nav">
                 <a href="{% url 'landing' %}" class="logo max-h-10">
-                  {% if profile.profile_photo %}
-                    <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
-                  {% else %}
-                    <img src="{% static 'healthPrediction/media/landing_page/pfp-def.png' %}" alt="pfp-def" class="w-10 h-10 rounded-full">
-                  {% endif %}
+                  <img src="{% static 'healthPrediction/media/landing_page/logo.png' %}" alt="AcesoCare logo" class="max-h-full h-10"> 
                 </a>
                 <ul class="nav">
                     <li class="scroll-to-section"><a href="{% url 'index' %}" id="nav-welcome">Home</a></li>
@@ -38,7 +34,11 @@
                     {% if user.is_authenticated %}
                         <li class="scroll-to-section">
                             <a href="{% url 'profile' %}">
-                                <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
+                              {% if profile.profile_photo %}
+                                  <img src="{{ profile.profile_photo.url }}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
+                              {% else %}
+                                  <img src="{% static 'healthPrediction/media/landing_page/pfp-def.png' %}" alt="pfp-def" class="w-10 h-10 rounded-full">
+                              {% endif %}                         
                             </a>
                         </li>
                         <li><div class="gradient-button"><a id="modal_trigger" href="{% url 'logout'  %}"><i src="{% static 'healthPrediction/media/landing_page/logout.png' %}" alt="Chain App Dev"></i> Logout</a></div></li>

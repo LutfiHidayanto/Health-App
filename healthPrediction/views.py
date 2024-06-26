@@ -910,7 +910,7 @@ def pharmacist_register_view(request):
             )
             profile.save()
             
-            
+            messages.add_message(request, messages.SUCCESS, "Created account successfully")
             return HttpResponseRedirect(reverse("pharmacist_login"))
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
